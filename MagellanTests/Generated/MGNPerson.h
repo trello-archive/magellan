@@ -13,5 +13,6 @@
 @interface MGNPerson : NSManagedObject
 
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSDate * birthday;
 
 @end

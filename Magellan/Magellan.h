@@ -6,8 +6,5 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-
-@interface Magellan : NSObject
-
-@end
+#import "MGNSetter.h"
+#import "MGNKeyExtractor.h"

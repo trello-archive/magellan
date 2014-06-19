@@ -12,5 +12,6 @@
 @implementation MGNPerson
 
 @dynamic name;
+@dynamic birthday;
 
 @end
