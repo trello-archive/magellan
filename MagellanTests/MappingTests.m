@@ -10,8 +10,8 @@
 
 #define EXP_SHORTHAND
 #import <Expecta/Expecta.h>
-#import "MGNMapping.h"
-#import "MGNMasseuse.h"
+#import "MAGMapping.h"
+#import "MAGMasseuse.h"
 
 @interface MappingTests : XCTestCase
 @end
@@ -27,7 +27,7 @@
 
 - (void)testSetter {
     Person *person = [[Person alloc] init];
-    [[MGNSetter setterWithKeyPath:@"firstName"] map:@"John" to:person];
+    [[MAGSetter setterWithKeyPath:@"firstName"] map:@"John" to:person];
     expect(person.firstName).equal(@"John");
 }
 
@@ -35,7 +35,7 @@
     Person *person = [[Person alloc] init];
     person.firstName = @"John";
 
-    [[MGNKeyExtractor keyExtractorWithKeyPath:@"firstName" mapper:[MGNSetter setterWithKeyPath:@"lastName"]]
+    [[MAGKeyExtractor keyExtractorWithKeyPath:@"firstName" mapper:[MAGSetter setterWithKeyPath:@"lastName"]]
      map:person to:person];
     expect(person.firstName).equal(person.lastName);
 }
@@ -44,7 +44,7 @@
     Person *person = [[Person alloc] init];
     person.firstName = @"John";
 
-    [[MGNKeyExtractor keyExtractorWithKeyPath:@"firstName.length" mapper:[MGNSetter setterWithKeyPath:@"age"]]
+    [[MAGKeyExtractor keyExtractorWithKeyPath:@"firstName.length" mapper:[MAGSetter setterWithKeyPath:@"age"]]
      map:person to:person];
     expect(person.age).equal(4);
 }

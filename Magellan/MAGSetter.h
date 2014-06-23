@@ -1,5 +1,5 @@
 //
-//  MGNSetter.h
+//  MAGSetter.h
 //  Magellan
 //
 //  Created by Ian Henry on 6/19/14.
@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MGNMapper.h"
+#import "MAGMapper.h"
 
-@interface MGNSetter : NSObject <MGNMapper>
+@interface MAGSetter : NSObject <MAGMapper>
 
 + (instancetype)setterWithKeyPath:(NSString *)keyPath;
 

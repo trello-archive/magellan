@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "MGNModels.h"
+#import "MAGModels.h"
 
 #define EXP_SHORTHAND
 #import <Expecta/Expecta.h>
@@ -31,9 +31,9 @@
 }
 
 - (void)testPeople {
-    MGNPerson *person = [MGNPerson MR_createEntity];
+    MAGPerson *person = [MAGPerson MR_createEntity];
     person.name = @"Ferdinand Magellan";
-    expect([MGNPerson MR_countOfEntities]).equal(1);
+    expect([MAGPerson MR_countOfEntities]).equal(1);
     expect(person.name).to.equal(@"Ferdinand Magellan");
 }
 

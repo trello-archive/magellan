@@ -1,15 +1,15 @@
 //
-//  MGNPerson.m
+//  MAGPerson.m
 //  Magellan
 //
 //  Created by Ian Henry on 6/19/14.
 //
 //
 
-#import "MGNPerson.h"
+#import "MAGPerson.h"
 
 
-@implementation MGNPerson
+@implementation MAGPerson
 
 @dynamic name;
 @dynamic birthday;

@@ -1,30 +1,30 @@
 //
-//  MGNSetter.m
+//  MAGSetter.m
 //  Magellan
 //
 //  Created by Ian Henry on 6/19/14.
 //
 //
 
-#import "MGNSetter.h"
+#import "MAGSetter.h"
 
-@interface MGNSetter ()
+@interface MAGSetter ()
 
 @property (nonatomic, copy) NSString *keyPath;
 
 @end
 
-@implementation MGNSetter
+@implementation MAGSetter
 
 + (instancetype)setterWithKeyPath:(NSString *)keyPath {
-    MGNSetter *setter = [[MGNSetter alloc] init];
+    MAGSetter *setter = [[MAGSetter alloc] init];
     setter.keyPath = keyPath;
     return setter;
 }
 
-- (MGNMappingResult)map:(id)source to:(id)dest {
+- (MAGMappingResult)map:(id)source to:(id)dest {
     [dest setValue:source forKeyPath:self.keyPath];
-    return MGNMappingResultSuccess;
+    return MAGMappingResultSuccess;
 }
 
 @end

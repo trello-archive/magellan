@@ -1,22 +1,22 @@
 //
-//  MGNMasseuse.m
+//  MAGMasseuse.m
 //  Magellan
 //
 //  Created by Ian Henry on 6/19/14.
 //
 //
 
-#import "MGNMasseuse.h"
+#import "MAGMasseuse.h"
 
-@interface MGNMasseuse ()
+@interface MAGMasseuse ()
 
-@property (nonatomic, strong) id <MGNMapper> mapper;
+@property (nonatomic, strong) id <MAGMapper> mapper;
 
 @end
 
-@implementation MGNMasseuse
+@implementation MAGMasseuse
 
-- (instancetype)initWithMapper:(id <MGNMapper>)mapper {
+- (instancetype)initWithMapper:(id <MAGMapper>)mapper {
     if (self = [super init]) {
         self.mapper = mapper;
     }
@@ -29,7 +29,7 @@
                                  userInfo:nil];
 }
 
-- (MGNMappingResult)map:(id)source to:(id)dest {
+- (MAGMappingResult)map:(id)source to:(id)dest {
     return [self.mapper map:[self massage:source] to:dest];
 }
 

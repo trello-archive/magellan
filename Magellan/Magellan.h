@@ -6,4 +6,4 @@
 //
 //
 
-#import "MGNMapping.h"
+#import "MAGMapping.h"
