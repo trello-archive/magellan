@@ -9,3 +9,6 @@
 #import "MAGSetter.h"
 #import "MAGMappingSeries.h"
 #import "MAGKeyExtractor.h"
+#import "MAGEntityCreator.h"
+#import "MAGEntityFinder.h"
+#import "MAGFallbackProvider.h"

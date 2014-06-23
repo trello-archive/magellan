@@ -1,20 +1,19 @@
 //
-//  MAGPerson.m
+//  MAGShip.m
 //  Magellan
 //
 //  Created by Ian Henry on 6/23/14.
 //
 //
 
-#import "MAGPerson.h"
 #import "MAGShip.h"
+#import "MAGPerson.h"
 
 
-@implementation MAGPerson
+@implementation MAGShip
 
 @dynamic name;
-@dynamic birthday;
 @dynamic identifier;
-@dynamic ship;
+@dynamic people;
 
 @end

@@ -7,3 +7,4 @@
 //
 
 #import "MAGPerson.h"
+#import "MAGShip.h"
