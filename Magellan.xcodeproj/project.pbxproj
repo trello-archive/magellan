@@ -19,6 +19,7 @@
 		3C3AF4B619538D59001A3FFF /* MGNKeyExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4B519538D59001A3FFF /* MGNKeyExtractor.m */; };
 		3C3AF4B919538E1C001A3FFF /* MappingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4B819538E1C001A3FFF /* MappingTests.m */; };
 		3C3AF4BD19538E7E001A3FFF /* MGNMappingSeries.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4BC19538E7E001A3FFF /* MGNMappingSeries.m */; };
+		3C3AF4C419539491001A3FFF /* MGNMasseuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4C319539491001A3FFF /* MGNMasseuse.m */; };
 		FA25649C50924E6AA626CDF7 /* libPods-MagellanTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6EAF6DEA7D04BDFAA637C41 /* libPods-MagellanTests.a */; };
 /* End PBXBuildFile section */
 
@@ -62,11 +63,13 @@
 		3C3AF4B319538AFB001A3FFF /* MGNMapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGNMapper.h; sourceTree = "<group>"; };
 		3C3AF4B419538D59001A3FFF /* MGNKeyExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGNKeyExtractor.h; sourceTree = "<group>"; };
 		3C3AF4B519538D59001A3FFF /* MGNKeyExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGNKeyExtractor.m; sourceTree = "<group>"; };
-		3C3AF4B719538E1C001A3FFF /* MappingTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MappingTests.h; sourceTree = "<group>"; };
 		3C3AF4B819538E1C001A3FFF /* MappingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MappingTests.m; sourceTree = "<group>"; };
 		3C3AF4BA19538E51001A3FFF /* Magellan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Magellan.h; sourceTree = "<group>"; };
 		3C3AF4BB19538E7E001A3FFF /* MGNMappingSeries.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGNMappingSeries.h; sourceTree = "<group>"; };
 		3C3AF4BC19538E7E001A3FFF /* MGNMappingSeries.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGNMappingSeries.m; sourceTree = "<group>"; };
+		3C3AF4C219539491001A3FFF /* MGNMasseuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGNMasseuse.h; sourceTree = "<group>"; };
+		3C3AF4C319539491001A3FFF /* MGNMasseuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGNMasseuse.m; sourceTree = "<group>"; };
+		3C3AF4C519539561001A3FFF /* MGNMapping.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MGNMapping.h; sourceTree = "<group>"; };
 		A6EAF6DEA7D04BDFAA637C41 /* libPods-MagellanTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MagellanTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C228EC17EBF845B99F1F1D17 /* Pods-MagellanTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MagellanTests.xcconfig"; path = "Pods/Pods-MagellanTests.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -150,10 +153,9 @@
 				3C3AF48B1953710B001A3FFF /* Supporting Files */,
 				3C3AF4A519537988001A3FFF /* Generated */,
 				3C3AF4901953710B001A3FFF /* MagellanTests.m */,
+				3C3AF4B819538E1C001A3FFF /* MappingTests.m */,
 				3C3AF4A219537954001A3FFF /* Model.xcdatamodeld */,
 				3C3AF4A9195379F0001A3FFF /* MGNModels.h */,
-				3C3AF4B719538E1C001A3FFF /* MappingTests.h */,
-				3C3AF4B819538E1C001A3FFF /* MappingTests.m */,
 			);
 			path = MagellanTests;
 			sourceTree = "<group>";
@@ -178,6 +180,7 @@
 		3C3AF4C1195393E3001A3FFF /* Mapping */ = {
 			isa = PBXGroup;
 			children = (
+				3C3AF4C519539561001A3FFF /* MGNMapping.h */,
 				3C3AF4B019538AA5001A3FFF /* MGNSetter.h */,
 				3C3AF4B119538AA5001A3FFF /* MGNSetter.m */,
 				3C3AF4B319538AFB001A3FFF /* MGNMapper.h */,
@@ -185,6 +188,8 @@
 				3C3AF4B519538D59001A3FFF /* MGNKeyExtractor.m */,
 				3C3AF4BB19538E7E001A3FFF /* MGNMappingSeries.h */,
 				3C3AF4BC19538E7E001A3FFF /* MGNMappingSeries.m */,
+				3C3AF4C219539491001A3FFF /* MGNMasseuse.h */,
+				3C3AF4C319539491001A3FFF /* MGNMasseuse.m */,
 			);
 			name = Mapping;
 			sourceTree = "<group>";
@@ -305,6 +310,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C3AF4B219538AA5001A3FFF /* MGNSetter.m in Sources */,
+				3C3AF4C419539491001A3FFF /* MGNMasseuse.m in Sources */,
 				3C3AF4BD19538E7E001A3FFF /* MGNMappingSeries.m in Sources */,
 				3C3AF4B619538D59001A3FFF /* MGNKeyExtractor.m in Sources */,
 			);

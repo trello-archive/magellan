@@ -11,20 +11,18 @@
 @interface MGNKeyExtractor ()
 
 @property (nonatomic, copy) NSString *keyPath;
-@property (nonatomic, retain) id <MGNMapper> mapper;
 
 @end
 
 @implementation MGNKeyExtractor
 
-- (MGNMappingResult)map:(id)source to:(id)dest {
-    return [self.mapper map:[source valueForKeyPath:self.keyPath] to:dest];
+- (id)massage:(id)source {
+    return [source valueForKeyPath:self.keyPath];
 }
 
 + (instancetype)keyExtractorWithKeyPath:(NSString *)keyPath mapper:(id <MGNMapper>)mapper {
-    MGNKeyExtractor *extractor = [[MGNKeyExtractor alloc] init];
+    MGNKeyExtractor *extractor = [[MGNKeyExtractor alloc] initWithMapper:mapper];
     extractor.keyPath = keyPath;
-    extractor.mapper = mapper;
     return extractor;
 }
 

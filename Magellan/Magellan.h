@@ -6,5 +6,4 @@
 //
 //
 
-#import "MGNSetter.h"
-#import "MGNKeyExtractor.h"
+#import "MGNMapping.h"

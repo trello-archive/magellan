@@ -6,14 +6,12 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-#import "MGNMapper.h"
+#import "MGNMasseuse.h"
 
-@interface MGNKeyExtractor : NSObject <MGNMapper>
+@interface MGNKeyExtractor : MGNMasseuse
 
 + (instancetype)keyExtractorWithKeyPath:(NSString *)keyPath mapper:(id <MGNMapper>)mapper;
 
 @property (nonatomic, copy, readonly) NSString *keyPath;
-@property (nonatomic, retain, readonly) id <MGNMapper> mapper;
 
 @end
