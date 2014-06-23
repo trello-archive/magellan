@@ -14,6 +14,8 @@
 #import <Expecta/Expecta.h>
 #import <MagicalRecord/CoreData+MagicalRecord.h>
 
+static NSDictionary *magellanPayload;
+static NSDictionary *trinidadPayload;
 static NSManagedObjectContext *moc;
 
 @interface MagellanTests : XCTestCase
@@ -27,6 +29,12 @@ static NSManagedObjectContext *moc;
     [MagicalRecord setDefaultModelFromClass:self];
     [MagicalRecord setupCoreDataStackWithInMemoryStore];
 
+    magellanPayload = @{@"id": @"a",
+                        @"name": @"Ferdinand Magellan"};
+    trinidadPayload = @{@"id": @"a",
+                        @"name": @"Trinidad",
+                        @"captain": magellanPayload,
+                        @"type": @"caravel"};
     moc = [NSManagedObjectContext MR_defaultContext];
 }
 
@@ -79,6 +87,31 @@ static NSManagedObjectContext *moc;
     expect(personOne).equal(personTwo);
     [findOrCreateProvider provideObjectFromObject:@{@"id": @"b"}];
     expect([MAGPerson MR_countOfEntities]).equal(2);
+}
+
+
+- (void)testNestedRelationship {
+    NSArray *payload = @[trinidadPayload,
+                         @{@"id": @"b",
+                           @"name": @"San Antonio",
+                           @"captain": @{@"id": @"b",
+                                         @"name": @"Juan de Cartagena"},
+                           @"type": @"carrack"},
+                         @{@"identifier": @"c",
+                           @"name": @"Concepcion",
+                           @"captain": @{@"id": @"c",
+                                         @"name": @"Gaspar de Quesada"},
+                           @"type": @"carrack"},
+                         @{@"identifier": @"d",
+                           @"name": @"Santiago",
+                           @"captain": @{@"id": @"d",
+                                         @"name": @"Juan Serrano"},
+                           @"type": @"carrack"},
+                         @{@"identifier": @"e",
+                           @"name": @"Victoria",
+                           @"captain": @{@"id": @"e",
+                                         @"name": @"Luis Mendoza"},
+                           @"type": @"carrack"}];
 }
 
 @end
