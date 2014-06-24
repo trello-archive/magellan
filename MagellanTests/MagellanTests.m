@@ -13,6 +13,7 @@
 #define EXP_SHORTHAND
 #import <Expecta/Expecta.h>
 #import <MagicalRecord/CoreData+MagicalRecord.h>
+#import "NSManagedObjectContext+Magellan.h"
 
 static NSDictionary *magellanPayload;
 static NSDictionary *trinidadPayload;
@@ -44,8 +45,7 @@ static NSManagedObjectContext *moc;
 }
 
 - (void)tearDown {
-    [MAGPerson MR_deleteAllMatchingPredicate:[NSPredicate predicateWithValue:YES]];
-    [MAGShip MR_deleteAllMatchingPredicate:[NSPredicate predicateWithValue:YES]];
+    expect([moc mag_deleteAllEntities]).to.equal(nil);
 }
 
 - (void)testPeople {
