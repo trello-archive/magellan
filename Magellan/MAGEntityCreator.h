@@ -17,7 +17,7 @@
 + (instancetype)entityCreatorWithEntityDescription:(NSEntityDescription *)entityDescription
                             inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
-@property (nonatomic, strong, readonly) NSEntityDescription *objectClass;
+@property (nonatomic, strong, readonly) NSEntityDescription *entityDescription;
 @property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;
 
 @end

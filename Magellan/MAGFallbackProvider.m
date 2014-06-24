@@ -17,7 +17,7 @@
 
 @implementation MAGFallbackProvider
 
-+ (id)fallbackProviderWithPrimary:(id <MAGProvider>)primary secondary:(id <MAGProvider>)secondary {
++ (instancetype)fallbackProviderWithPrimary:(id <MAGProvider>)primary secondary:(id <MAGProvider>)secondary {
     NSParameterAssert(primary != nil);
     NSParameterAssert(secondary != nil);
     MAGFallbackProvider *provider = [[MAGFallbackProvider alloc] init];

@@ -17,8 +17,8 @@
                            inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
                                         predicate:(NSPredicate *(^)(id source))predicateProvider;
 
-@property (nonatomic, strong, readonly) NSEntityDescription *objectClass;
+@property (nonatomic, strong, readonly) NSEntityDescription *entityDescription;
 @property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong, readonly) NSPredicate *(^predicateProvider)(id source);
+@property (nonatomic, copy, readonly) NSPredicate *(^predicateProvider)(id source);
 
 @end

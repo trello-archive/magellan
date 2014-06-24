@@ -25,6 +25,7 @@
 		3C3AF4E81958E08C001A3FFF /* MAGFallbackProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4E71958E08C001A3FFF /* MAGFallbackProvider.m */; };
 		3C3AF4EB1958E483001A3FFF /* MAGEntityFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4EA1958E483001A3FFF /* MAGEntityFinder.m */; };
 		3C3AF4EE1959C683001A3FFF /* NSManagedObjectContext+Magellan.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4ED1959C683001A3FFF /* NSManagedObjectContext+Magellan.m */; };
+		3C3AF4F7195A09FC001A3FFF /* MAGEntityProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4F6195A09FC001A3FFF /* MAGEntityProvider.m */; };
 		FA25649C50924E6AA626CDF7 /* libPods-MagellanTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6EAF6DEA7D04BDFAA637C41 /* libPods-MagellanTests.a */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +87,8 @@
 		3C3AF4EA1958E483001A3FFF /* MAGEntityFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGEntityFinder.m; sourceTree = "<group>"; };
 		3C3AF4EC1959C683001A3FFF /* NSManagedObjectContext+Magellan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+Magellan.h"; sourceTree = "<group>"; };
 		3C3AF4ED1959C683001A3FFF /* NSManagedObjectContext+Magellan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+Magellan.m"; sourceTree = "<group>"; };
+		3C3AF4F5195A09FC001A3FFF /* MAGEntityProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGEntityProvider.h; sourceTree = "<group>"; };
+		3C3AF4F6195A09FC001A3FFF /* MAGEntityProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGEntityProvider.m; sourceTree = "<group>"; };
 		A6EAF6DEA7D04BDFAA637C41 /* libPods-MagellanTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MagellanTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C228EC17EBF845B99F1F1D17 /* Pods-MagellanTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MagellanTests.xcconfig"; path = "Pods/Pods-MagellanTests.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -230,6 +233,8 @@
 				3C3AF4E01958CA7D001A3FFF /* MAGEntityCreator.m */,
 				3C3AF4E91958E483001A3FFF /* MAGEntityFinder.h */,
 				3C3AF4EA1958E483001A3FFF /* MAGEntityFinder.m */,
+				3C3AF4F5195A09FC001A3FFF /* MAGEntityProvider.h */,
+				3C3AF4F6195A09FC001A3FFF /* MAGEntityProvider.m */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -363,6 +368,7 @@
 				3C3AF4B219538AA5001A3FFF /* MAGSetter.m in Sources */,
 				3C3AF4E11958CA7D001A3FFF /* MAGEntityCreator.m in Sources */,
 				3C3AF4E81958E08C001A3FFF /* MAGFallbackProvider.m in Sources */,
+				3C3AF4F7195A09FC001A3FFF /* MAGEntityProvider.m in Sources */,
 				3C3AF4C419539491001A3FFF /* MAGMasseuse.m in Sources */,
 				3C3AF4BD19538E7E001A3FFF /* MAGMappingSeries.m in Sources */,
 				3C3AF4EB1958E483001A3FFF /* MAGEntityFinder.m in Sources */,

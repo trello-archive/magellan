@@ -21,6 +21,8 @@
 
 + (instancetype)entityCreatorWithEntityDescription:(NSEntityDescription *)entityDescription
                             inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
+    NSParameterAssert(entityDescription != nil);
+    NSParameterAssert(managedObjectContext != nil);
     MAGEntityCreator *provider = [[self alloc] init];
     provider.entityDescription = entityDescription;
     provider.managedObjectContext = managedObjectContext;

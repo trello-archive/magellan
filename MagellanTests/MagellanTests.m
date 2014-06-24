@@ -16,8 +16,12 @@
 #import "NSManagedObjectContext+Magellan.h"
 
 static NSDictionary *magellanPayload;
+static NSDictionary *cartagenaPayload;
 static NSDictionary *trinidadPayload;
 static NSManagedObjectContext *moc;
+static id <MAGMapper> personMapper;
+static MAGEntityFinder *personFinder;
+static NSEntityDescription *personEntity;
 
 @interface MagellanTests : XCTestCase
 
@@ -32,11 +36,28 @@ static NSManagedObjectContext *moc;
 
     magellanPayload = @{@"id": @"a",
                         @"name": @"Ferdinand Magellan"};
+
+    cartagenaPayload = @{@"id": @"b",
+                         @"name": @"Juan de Cartagena"};
+
     trinidadPayload = @{@"id": @"a",
                         @"name": @"Trinidad",
                         @"captain": magellanPayload,
                         @"type": @"caravel"};
+
     moc = [NSManagedObjectContext MR_defaultContext];
+
+    personEntity = [NSEntityDescription entityForName:NSStringFromClass([MAGPerson class])
+                               inManagedObjectContext:moc];
+
+    personMapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGKeyExtractor keyExtractorWithKeyPath:@"id" mapper:[MAGSetter setterWithKeyPath:@"identifier"]],
+                                                                [MAGKeyExtractor keyExtractorWithKeyPath:@"name" mapper:[MAGSetter setterWithKeyPath:@"name"]]]];
+
+    personFinder = [MAGEntityFinder entityFinderWithEntityDescription:personEntity
+                                               inManagedObjectContext:moc
+                                                            predicate:^(id source) {
+                                                                return [NSPredicate predicateWithFormat:@"identifier = %@", [source valueForKey:@"id"]];
+                                                            }];
 }
 
 + (void)tearDown {
@@ -65,15 +86,8 @@ static NSManagedObjectContext *moc;
 }
 
 - (void)testEntityFindOrCreate {
-    NSEntityDescription *personEntity = [NSEntityDescription entityForName:NSStringFromClass([MAGPerson class])
-                                                    inManagedObjectContext:moc];
     MAGEntityCreator *personCreator = [MAGEntityCreator entityCreatorWithEntityDescription:personEntity
                                                                     inManagedObjectContext:moc];
-    MAGEntityFinder *personFinder = [MAGEntityFinder entityFinderWithEntityDescription:personEntity
-                                                                inManagedObjectContext:moc
-                                                                             predicate:^(id source) {
-                                                                                 return [NSPredicate predicateWithFormat:@"identifier = %@", [source valueForKey:@"id"]];
-                                                                             }];
 
     MAGFallbackProvider *findOrCreateProvider = [MAGFallbackProvider fallbackProviderWithPrimary:personFinder
                                                                                        secondary:personCreator];
@@ -89,12 +103,26 @@ static NSManagedObjectContext *moc;
     expect([MAGPerson MR_countOfEntities]).equal(2);
 }
 
+- (void)testEntityProvider {
+    MAGEntityProvider *entityProvider = [MAGEntityProvider entityProviderWithEntityFinder:personFinder mapper:personMapper];
+
+    expect([MAGPerson MR_countOfEntities]).equal(0);
+    MAGPerson *magellanOne = [entityProvider provideObjectFromObject:magellanPayload];
+    expect(magellanOne.name).equal(@"Ferdinand Magellan");
+    expect([MAGPerson MR_countOfEntities]).equal(1);
+    MAGPerson *magellanTwo = [entityProvider provideObjectFromObject:magellanPayload];
+    expect([MAGPerson MR_countOfEntities]).equal(1);
+    expect(magellanOne).equal(magellanTwo);
+    MAGPerson *cartagena = [entityProvider provideObjectFromObject:cartagenaPayload];
+    expect([MAGPerson MR_countOfEntities]).equal(2);
+    expect(cartagena.name).equal(@"Juan de Cartagena");
+}
+
 - (void)testNestedRelationship {
     NSArray *payload = @[trinidadPayload,
                          @{@"id": @"b",
                            @"name": @"San Antonio",
-                           @"captain": @{@"id": @"b",
-                                         @"name": @"Juan de Cartagena"},
+                           @"captain": cartagenaPayload,
                            @"type": @"carrack"},
                          @{@"identifier": @"c",
                            @"name": @"Concepcion",

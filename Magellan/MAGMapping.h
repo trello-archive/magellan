@@ -11,4 +11,5 @@
 #import "MAGKeyExtractor.h"
 #import "MAGEntityCreator.h"
 #import "MAGEntityFinder.h"
+#import "MAGEntityProvider.h"
 #import "MAGFallbackProvider.h"

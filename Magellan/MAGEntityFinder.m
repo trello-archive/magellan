@@ -13,7 +13,7 @@
 
 @property (nonatomic, strong) NSEntityDescription *entityDescription;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong) NSPredicate *(^predicateProvider)(id source);
+@property (nonatomic, copy) NSPredicate *(^predicateProvider)(id source);
 
 @end
 
@@ -22,6 +22,9 @@
 + (instancetype)entityFinderWithEntityDescription:(NSEntityDescription *)entityDescription
                            inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
                                         predicate:(NSPredicate *(^)(id source))predicateProvider {
+    NSParameterAssert(entityDescription != nil);
+    NSParameterAssert(managedObjectContext != nil);
+    NSParameterAssert(predicateProvider != nil);
     MAGEntityFinder *provider = [[self alloc] init];
     provider.entityDescription = entityDescription;
     provider.managedObjectContext = managedObjectContext;
