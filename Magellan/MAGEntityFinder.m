@@ -19,9 +19,9 @@
 
 @implementation MAGEntityFinder
 
-+ (instancetype)entityProviderWithEntityDescription:(NSEntityDescription *)entityDescription
-                             inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
-                                          predicate:(NSPredicate *(^)(id source))predicateProvider {
++ (instancetype)entityFinderWithEntityDescription:(NSEntityDescription *)entityDescription
+                           inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+                                        predicate:(NSPredicate *(^)(id source))predicateProvider {
     MAGEntityFinder *provider = [[self alloc] init];
     provider.entityDescription = entityDescription;
     provider.managedObjectContext = managedObjectContext;

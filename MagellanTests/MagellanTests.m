@@ -58,8 +58,8 @@ static NSManagedObjectContext *moc;
 - (void)testEntityCreator {
     NSEntityDescription *personEntity = [NSEntityDescription entityForName:NSStringFromClass([MAGPerson class])
                                                     inManagedObjectContext:moc];
-    MAGEntityCreator *personCreator = [MAGEntityCreator entityProviderWithEntityDescription:personEntity
-                                                                        inManagedObjectContext:moc];
+    MAGEntityCreator *personCreator = [MAGEntityCreator entityCreatorWithEntityDescription:personEntity
+                                                                    inManagedObjectContext:moc];
     [personCreator provideObjectFromObject:nil];
     expect([MAGPerson MR_countOfEntities]).equal(1);
 }
@@ -67,16 +67,16 @@ static NSManagedObjectContext *moc;
 - (void)testEntityFindOrCreate {
     NSEntityDescription *personEntity = [NSEntityDescription entityForName:NSStringFromClass([MAGPerson class])
                                                     inManagedObjectContext:moc];
-    MAGEntityCreator *personCreator = [MAGEntityCreator entityProviderWithEntityDescription:personEntity
-                                                                     inManagedObjectContext:moc];
-    MAGEntityFinder *personFinder = [MAGEntityFinder entityProviderWithEntityDescription:personEntity
-                                                                  inManagedObjectContext:moc
-                                                                               predicate:^(id source) {
-                                                                                   return [NSPredicate predicateWithFormat:@"identifier = %@", [source valueForKey:@"id"]];
-                                                                               }];
+    MAGEntityCreator *personCreator = [MAGEntityCreator entityCreatorWithEntityDescription:personEntity
+                                                                    inManagedObjectContext:moc];
+    MAGEntityFinder *personFinder = [MAGEntityFinder entityFinderWithEntityDescription:personEntity
+                                                                inManagedObjectContext:moc
+                                                                             predicate:^(id source) {
+                                                                                 return [NSPredicate predicateWithFormat:@"identifier = %@", [source valueForKey:@"id"]];
+                                                                             }];
 
     MAGFallbackProvider *findOrCreateProvider = [MAGFallbackProvider fallbackProviderWithPrimary:personFinder
-                                                                                   secondary:personCreator];
+                                                                                       secondary:personCreator];
 
     expect([MAGPerson MR_countOfEntities]).equal(0);
     MAGPerson *personOne = [findOrCreateProvider provideObjectFromObject:@{@"id": @"a"}];
@@ -88,7 +88,6 @@ static NSManagedObjectContext *moc;
     [findOrCreateProvider provideObjectFromObject:@{@"id": @"b"}];
     expect([MAGPerson MR_countOfEntities]).equal(2);
 }
-
 
 - (void)testNestedRelationship {
     NSArray *payload = @[trinidadPayload,

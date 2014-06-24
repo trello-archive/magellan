@@ -19,8 +19,8 @@
 
 @implementation MAGEntityCreator
 
-+ (instancetype)entityProviderWithEntityDescription:(NSEntityDescription *)entityDescription
-                             inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
++ (instancetype)entityCreatorWithEntityDescription:(NSEntityDescription *)entityDescription
+                            inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
     MAGEntityCreator *provider = [[self alloc] init];
     provider.entityDescription = entityDescription;
     provider.managedObjectContext = managedObjectContext;

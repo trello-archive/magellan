@@ -14,8 +14,8 @@
 
 @interface MAGEntityCreator : NSObject <MAGProvider>
 
-+ (instancetype)entityProviderWithEntityDescription:(NSEntityDescription *)entityDescription
-                             inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
++ (instancetype)entityCreatorWithEntityDescription:(NSEntityDescription *)entityDescription
+                            inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
 @property (nonatomic, strong, readonly) NSEntityDescription *objectClass;
 @property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;

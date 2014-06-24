@@ -13,9 +13,9 @@
 
 @interface MAGEntityFinder : NSObject <MAGProvider>
 
-+ (instancetype)entityProviderWithEntityDescription:(NSEntityDescription *)entityDescription
-                             inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
-                                          predicate:(NSPredicate *(^)(id source))predicateProvider;
++ (instancetype)entityFinderWithEntityDescription:(NSEntityDescription *)entityDescription
+                           inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+                                        predicate:(NSPredicate *(^)(id source))predicateProvider;
 
 @property (nonatomic, strong, readonly) NSEntityDescription *objectClass;
 @property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;
