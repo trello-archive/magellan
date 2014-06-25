@@ -31,20 +31,20 @@
     expect(person.firstName).equal(@"John");
 }
 
-- (void)testKeyExtractor {
+- (void)testKeyPathExtractor {
     Person *person = [[Person alloc] init];
     person.firstName = @"John";
 
-    [[MAGKeyExtractor keyExtractorWithKeyPath:@"firstName" mapper:[MAGSetter setterWithKeyPath:@"lastName"]]
+    [[MAGKeyPathExtractor keyPathExtractorWithKeyPath:@"firstName" mapper:[MAGSetter setterWithKeyPath:@"lastName"]]
      map:person to:person];
     expect(person.firstName).equal(person.lastName);
 }
 
-- (void)testKeyExtractorWithPath {
+- (void)testKeyPathExtractorWithPath {
     Person *person = [[Person alloc] init];
     person.firstName = @"John";
 
-    [[MAGKeyExtractor keyExtractorWithKeyPath:@"firstName.length" mapper:[MAGSetter setterWithKeyPath:@"age"]]
+    [[MAGKeyPathExtractor keyPathExtractorWithKeyPath:@"firstName.length" mapper:[MAGSetter setterWithKeyPath:@"age"]]
      map:person to:person];
     expect(person.age).equal(4);
 }

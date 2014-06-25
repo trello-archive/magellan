@@ -14,6 +14,8 @@
 - (instancetype)initWithMapper:(id <MAGMapper>)mapper;
 
 @property (nonatomic, strong, readonly) id <MAGMapper> mapper;
+
+// protected... need to figure out how to represent that
 - (id)massage:(id)source;
 
 @end

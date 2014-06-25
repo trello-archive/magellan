@@ -8,9 +8,9 @@
 
 #import "MAGMasseuse.h"
 
-@interface MAGKeyExtractor : MAGMasseuse
+@interface MAGKeyPathExtractor : MAGMasseuse
 
-+ (instancetype)keyExtractorWithKeyPath:(NSString *)keyPath mapper:(id <MAGMapper>)mapper;
++ (instancetype)keyPathExtractorWithKeyPath:(NSString *)keyPath mapper:(id <MAGMapper>)mapper;
 
 @property (nonatomic, copy, readonly) NSString *keyPath;
 

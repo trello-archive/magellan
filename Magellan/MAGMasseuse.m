@@ -17,6 +17,7 @@
 @implementation MAGMasseuse
 
 - (instancetype)initWithMapper:(id <MAGMapper>)mapper {
+    NSParameterAssert(mapper != nil);
     if (self = [super init]) {
         self.mapper = mapper;
     }

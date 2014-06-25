@@ -6,10 +6,20 @@
 //
 //
 
+#pragma mark Mappers
+
 #import "MAGSetter.h"
 #import "MAGMappingSeries.h"
-#import "MAGKeyExtractor.h"
+
+#pragma mark Object Providers
+
 #import "MAGEntityCreator.h"
 #import "MAGEntityFinder.h"
 #import "MAGEntityProvider.h"
 #import "MAGFallbackProvider.h"
+#import "MAGCollectionProvider.h"
+
+#pragma mark Masseuses
+
+#import "MAGKeyPathExtractor.h"
+#import "MAGSubscripter.h"
