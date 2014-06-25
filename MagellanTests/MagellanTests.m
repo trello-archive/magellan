@@ -111,7 +111,7 @@ static MAGEntityProvider *personProvider, *shipProvider;
 - (void)testPeople {
     MAGPerson *person = [MAGPerson MR_createEntity];
     person.name = @"Ferdinand Magellan";
-    expect([MAGPerson MR_countOfEntities]).equal(1);
+    expect([MAGPerson MR_countOfEntities]).to.equal(1);
     expect(person.name).to.equal(@"Ferdinand Magellan");
 }
 
@@ -121,7 +121,7 @@ static MAGEntityProvider *personProvider, *shipProvider;
     MAGEntityCreator *personCreator = [MAGEntityCreator entityCreatorWithEntityDescription:personEntity
                                                                     inManagedObjectContext:moc];
     [personCreator provideObjectFromObject:nil];
-    expect([MAGPerson MR_countOfEntities]).equal(1);
+    expect([MAGPerson MR_countOfEntities]).to.equal(1);
 }
 
 - (void)testEntityFindOrCreate {
@@ -131,65 +131,65 @@ static MAGEntityProvider *personProvider, *shipProvider;
     MAGFallbackProvider *findOrCreateProvider = [MAGFallbackProvider fallbackProviderWithPrimary:personFinder
                                                                                        secondary:personCreator];
 
-    expect([MAGPerson MR_countOfEntities]).equal(0);
+    expect([MAGPerson MR_countOfEntities]).to.equal(0);
     MAGPerson *personOne = [findOrCreateProvider provideObjectFromObject:@{@"id": @"a"}];
     personOne.identifier = @"a";
-    expect([MAGPerson MR_countOfEntities]).equal(1);
+    expect([MAGPerson MR_countOfEntities]).to.equal(1);
     MAGPerson *personTwo = [findOrCreateProvider provideObjectFromObject:@{@"id": @"a"}];
-    expect([MAGPerson MR_countOfEntities]).equal(1);
-    expect(personOne).equal(personTwo);
+    expect([MAGPerson MR_countOfEntities]).to.equal(1);
+    expect(personOne).to.equal(personTwo);
     [findOrCreateProvider provideObjectFromObject:@{@"id": @"b"}];
-    expect([MAGPerson MR_countOfEntities]).equal(2);
+    expect([MAGPerson MR_countOfEntities]).to.equal(2);
 }
 
 - (void)testEntityProvider {
-    expect([MAGPerson MR_countOfEntities]).equal(0);
+    expect([MAGPerson MR_countOfEntities]).to.equal(0);
     MAGPerson *magellanOne = [personProvider provideObjectFromObject:magellanPayload];
-    expect(magellanOne.name).equal(@"Ferdinand Magellan");
-    expect([MAGPerson MR_countOfEntities]).equal(1);
+    expect(magellanOne.name).to.equal(@"Ferdinand Magellan");
+    expect([MAGPerson MR_countOfEntities]).to.equal(1);
     MAGPerson *magellanTwo = [personProvider provideObjectFromObject:magellanPayload];
-    expect([MAGPerson MR_countOfEntities]).equal(1);
-    expect(magellanOne).equal(magellanTwo);
+    expect([MAGPerson MR_countOfEntities]).to.equal(1);
+    expect(magellanOne).to.equal(magellanTwo);
     MAGPerson *cartagena = [personProvider provideObjectFromObject:cartagenaPayload];
-    expect([MAGPerson MR_countOfEntities]).equal(2);
-    expect(cartagena.name).equal(@"Juan de Cartagena");
+    expect([MAGPerson MR_countOfEntities]).to.equal(2);
+    expect(cartagena.name).to.equal(@"Juan de Cartagena");
 }
 
 - (void)testCollectionProvider {
     NSArray *peoplePayloads = @[magellanPayload, cartagenaPayload];
     MAGCollectionProvider *collectionProvider = [MAGCollectionProvider collectionProviderWithElementProvider:personProvider];
 
-    expect([MAGPerson MR_countOfEntities]).equal(0);
+    expect([MAGPerson MR_countOfEntities]).to.equal(0);
     NSArray *people = [collectionProvider provideObjectFromObject:peoplePayloads];
-    expect([MAGPerson MR_countOfEntities]).equal(2);
-    expect([people[0] name]).equal(@"Ferdinand Magellan");
+    expect([MAGPerson MR_countOfEntities]).to.equal(2);
+    expect([people[0] name]).to.equal(@"Ferdinand Magellan");
 }
 
 - (void)testRelationship {
-    expect([MAGPerson MR_countOfEntities]).equal(0);
-    expect([MAGShip MR_countOfEntities]).equal(0);
+    expect([MAGPerson MR_countOfEntities]).to.equal(0);
+    expect([MAGShip MR_countOfEntities]).to.equal(0);
 
     MAGShip *trinidad = [shipProvider provideObjectFromObject:trinidadPayload];
-    expect([MAGPerson MR_countOfEntities]).equal(1);
-    expect([MAGShip MR_countOfEntities]).equal(1);
-    expect(trinidad.name).equal(@"Trinidad");
-    expect(trinidad.captain.name).equal(@"Ferdinand Magellan");
+    expect([MAGPerson MR_countOfEntities]).to.equal(1);
+    expect([MAGShip MR_countOfEntities]).to.equal(1);
+    expect(trinidad.name).to.equal(@"Trinidad");
+    expect(trinidad.captain.name).to.equal(@"Ferdinand Magellan");
 }
 
 - (void)testCollectionProviderDuplicates {
-    expect([MAGPerson MR_countOfEntities]).equal(0);
-    expect([MAGShip MR_countOfEntities]).equal(0);
+    expect([MAGPerson MR_countOfEntities]).to.equal(0);
+    expect([MAGShip MR_countOfEntities]).to.equal(0);
 
     MAGShip *trinidad = [shipProvider provideObjectFromObject:trinidadPayload];
-    expect([MAGPerson MR_countOfEntities]).equal(1);
-    expect([MAGShip MR_countOfEntities]).equal(1);
+    expect([MAGPerson MR_countOfEntities]).to.equal(1);
+    expect([MAGShip MR_countOfEntities]).to.equal(1);
 
     MAGCollectionProvider *collectionProvider = [MAGCollectionProvider collectionProviderWithElementProvider:shipProvider];
     NSArray *ships = [collectionProvider provideObjectFromObject:fleetPayload];
-    expect(ships).haveCountOf(fleetPayload.count);
-    expect([MAGPerson MR_countOfEntities]).equal(5);
-    expect([MAGShip MR_countOfEntities]).equal(5);
-    expect(ships[0]).beIdenticalTo(trinidad);
+    expect(ships).to.haveCountOf(fleetPayload.count);
+    expect([MAGPerson MR_countOfEntities]).to.equal(5);
+    expect([MAGShip MR_countOfEntities]).to.equal(5);
+    expect(ships[0]).to.beIdenticalTo(trinidad);
 }
 
 @end
