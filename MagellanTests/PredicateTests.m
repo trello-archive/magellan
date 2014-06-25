@@ -10,7 +10,7 @@
 
 #define EXP_SHORTHAND
 #import <Expecta/Expecta.h>
-#import "MAGPredicateProxy.h"
+#import "MAGMutablePredicateProxy.h"
 #import "MAGMapping.h"
 
 @interface PredicateTests : XCTestCase
@@ -29,7 +29,7 @@
                                                                          [MAGSubscripter subscripterWithKey:@"key2" mapper:[MAGSetter setterWithKeyPath:@"bar"]]]];
     NSDictionary *payload = @{@"key1": @"doesn't matter",
                               @"key2": @"not really part of the test"};
-    MAGPredicateProxy *predicateProxy = [[MAGPredicateProxy alloc] init];
+    MAGMutablePredicateProxy *predicateProxy = [[MAGMutablePredicateProxy alloc] init];
     [mapper map:payload to:predicateProxy];
 
     MAGPlaceholder *dummy = [[MAGPlaceholder alloc] init];
@@ -47,7 +47,7 @@
                                                                          [MAGSubscripter subscripterWithKey:@"key2" mapper:[MAGSetter setterWithKeyPath:@"foo"]]]];
     NSDictionary *payload = @{@"key1": @"original",
                               @"key2": @"overwritten"};
-    MAGPredicateProxy *predicateProxy = [[MAGPredicateProxy alloc] init];
+    MAGMutablePredicateProxy *predicateProxy = [[MAGMutablePredicateProxy alloc] init];
     [mapper map:payload to:predicateProxy];
 
     MAGPlaceholder *dummy = [[MAGPlaceholder alloc] init];

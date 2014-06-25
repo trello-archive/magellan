@@ -1,20 +1,20 @@
 //
-//  MAGPredicateProxy.m
+//  MAGMutablePredicateProxy.m
 //  Magellan
 //
 //  Created by Ian Henry on 6/25/14.
 //
 //
 
-#import "MAGPredicateProxy.h"
+#import "MAGMutablePredicateProxy.h"
 
-@interface MAGPredicateProxy ()
+@interface MAGMutablePredicateProxy ()
 
 @property (nonatomic, strong) NSMutableDictionary *dictionary;
 
 @end
 
-@implementation MAGPredicateProxy
+@implementation MAGMutablePredicateProxy
 
 - (instancetype)init {
     if (self = [super init]) {
