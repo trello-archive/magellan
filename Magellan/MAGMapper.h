@@ -8,13 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(BOOL, MAGMappingResult) {
-    MAGMappingResultSuccess = YES,
-    MAGMappingResultFailure = NO,
-};
-
 @protocol MAGMapper <NSObject>
 
-- (MAGMappingResult)map:(id)source to:(id)dest;
+- (void)map:(id)source to:(id)dest;
 
 @end

@@ -22,9 +22,8 @@
     return setter;
 }
 
-- (MAGMappingResult)map:(id)source to:(id)dest {
+- (void)map:(id)source to:(id)dest {
     [dest setValue:source forKeyPath:self.keyPath];
-    return MAGMappingResultSuccess;
 }
 
 @end

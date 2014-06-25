@@ -22,13 +22,10 @@
     return mappingSeries;
 }
 
-- (MAGMappingResult)map:(id)source to:(id)dest {
+- (void)map:(id)source to:(id)dest {
     for (id <MAGMapper> mapper in self.mappers) {
-        if ([mapper map:source to:dest] == MAGMappingResultFailure) {
-            return MAGMappingResultFailure;
-        }
+        [mapper map:source to:dest];
     }
-    return MAGMappingResultSuccess;
 }
 
 @end

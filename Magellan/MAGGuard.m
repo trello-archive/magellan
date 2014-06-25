@@ -30,11 +30,9 @@
                                  userInfo:nil];
 }
 
-- (MAGMappingResult)map:(id)source to:(id)dest {
+- (void)map:(id)source to:(id)dest {
     if ([self shouldMap:source]) {
-        return [self.mapper map:source to:dest];
-    } else {
-        return MAGMappingResultSuccess;
+        [self.mapper map:source to:dest];
     }
 }
 

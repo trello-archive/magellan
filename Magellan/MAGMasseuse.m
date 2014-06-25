@@ -30,7 +30,7 @@
                                  userInfo:nil];
 }
 
-- (MAGMappingResult)map:(id)source to:(id)dest {
+- (void)map:(id)source to:(id)dest {
     return [self.mapper map:[self massage:source] to:dest];
 }
 
