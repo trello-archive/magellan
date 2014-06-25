@@ -14,14 +14,14 @@
 #import <Expecta/Expecta.h>
 #import <MagicalRecord/CoreData+MagicalRecord.h>
 #import "NSManagedObjectContext+Magellan.h"
+#import "MAGPredicateProvidingMasseuse.h"
 
 static NSDictionary *magellanPayload;
 static NSDictionary *cartagenaPayload;
 static NSDictionary *trinidadPayload;
 static NSArray *fleetPayload;
 static NSManagedObjectContext *moc;
-static id <MAGMapper> personMapper, shipMapper;
-static MAGEntityFinder *personFinder, *shipFinder;
+static id <MAGMapper> identityMapper, personMapper, shipMapper;
 static NSEntityDescription *personEntity, *shipEntity;
 static id <MAGProvider> personProvider, shipProvider;
 
@@ -75,28 +75,18 @@ static id <MAGProvider> personProvider, shipProvider;
     shipEntity = [NSEntityDescription entityForName:NSStringFromClass([MAGShip class])
                                inManagedObjectContext:moc];
 
-    personMapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGSubscripter subscripterWithKey:@"id" mapper:[MAGSetter setterWithKeyPath:@"identifier"]],
+    identityMapper = [MAGSubscripter subscripterWithKey:@"id" mapper:[MAGSetter setterWithKeyPath:@"identifier"]];
+
+    personMapper = [MAGMappingSeries mappingSeriesWithMappers:@[identityMapper,
                                                                 [MAGSubscripter subscripterWithKey:@"name" mapper:[MAGSetter setterWithKeyPath:@"name"]]]];
 
-    personFinder = [MAGEntityFinder entityFinderWithEntityDescription:personEntity
-                                               inManagedObjectContext:moc
-                                                            predicate:^(id source) {
-                                                                return [NSPredicate predicateWithFormat:@"identifier = %@", [source valueForKey:@"id"]];
-                                                            }];
+    personProvider = MAGEntityProvider(personEntity, moc, identityMapper, personMapper);
 
-    personProvider = MAGEntityProvider(personFinder, personMapper);
-
-    shipMapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGSubscripter subscripterWithKey:@"id" mapper:[MAGSetter setterWithKeyPath:@"identifier"]],
+    shipMapper = [MAGMappingSeries mappingSeriesWithMappers:@[identityMapper,
                                                               [MAGSubscripter subscripterWithKey:@"name" mapper:[MAGSetter setterWithKeyPath:@"name"]],
                                                               [MAGSubscripter subscripterWithKey:@"captain" mapper:[MAGProvidingMapper providerMasseuseWithProvider:personProvider
                                                                                                                                                               mapper:[MAGSetter setterWithKeyPath:@"captain"]]]]];
-    shipFinder = [MAGEntityFinder entityFinderWithEntityDescription:shipEntity
-                                             inManagedObjectContext:moc
-                                                          predicate:^(id source) {
-                                                              return [NSPredicate predicateWithFormat:@"identifier = %@", [source valueForKey:@"id"]];
-                                                          }];
-
-    shipProvider = MAGEntityProvider(shipFinder, shipMapper);
+    shipProvider = MAGEntityProvider(shipEntity, moc, identityMapper, shipMapper);
 }
 
 + (void)tearDown {
@@ -124,22 +114,20 @@ static id <MAGProvider> personProvider, shipProvider;
     expect([MAGPerson MR_countOfEntities]).to.equal(1);
 }
 
-- (void)testEntityFindOrCreate {
-    MAGEntityCreator *personCreator = [MAGEntityCreator entityCreatorWithEntityDescription:personEntity
-                                                                    inManagedObjectContext:moc];
+- (void)testEntityFind {
+    id <MAGProvider> finder = [MAGPredicateProvidingMasseuse predicateProvidingMasseuseWithMapper:identityMapper
+                                                                                         provider:[MAGEntityFinder entityFinderWithEntityDescription:personEntity
+                                                                                                                              inManagedObjectContext:moc]];
+    expect([finder provideObjectFromObject:magellanPayload]).to.beNil();
 
-    MAGFallbackProvider *findOrCreateProvider = [MAGFallbackProvider fallbackProviderWithPrimary:personFinder
-                                                                                       secondary:personCreator];
-
+    id <MAGProvider> personCreator = [MAGMappedProvider mappedProviderWithProvider:[MAGEntityCreator entityCreatorWithEntityDescription:personEntity
+                                                                                                                 inManagedObjectContext:moc]
+                                                                            mapper:personMapper];
     expect([MAGPerson MR_countOfEntities]).to.equal(0);
-    MAGPerson *personOne = [findOrCreateProvider provideObjectFromObject:@{@"id": @"a"}];
-    personOne.identifier = @"a";
+    MAGPerson *magellan = [personCreator provideObjectFromObject:magellanPayload];
     expect([MAGPerson MR_countOfEntities]).to.equal(1);
-    MAGPerson *personTwo = [findOrCreateProvider provideObjectFromObject:@{@"id": @"a"}];
-    expect([MAGPerson MR_countOfEntities]).to.equal(1);
-    expect(personOne).to.equal(personTwo);
-    [findOrCreateProvider provideObjectFromObject:@{@"id": @"b"}];
-    expect([MAGPerson MR_countOfEntities]).to.equal(2);
+
+    expect([finder provideObjectFromObject:magellanPayload]).to.beIdenticalTo(magellan);
 }
 
 - (void)testEntityProvider {

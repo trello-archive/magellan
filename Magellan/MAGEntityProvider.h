@@ -7,6 +7,6 @@
 //
 
 @protocol MAGMapper, MAGProvider;
-@class MAGEntityFinder;
+@class NSEntityDescription, NSManagedObjectContext;
 
-id <MAGProvider> extern MAGEntityProvider(MAGEntityFinder *entityFinder, id <MAGMapper> mapper);
+id <MAGProvider> extern MAGEntityProvider(NSEntityDescription *entity, NSManagedObjectContext *moc, id <MAGMapper> identityMapper, id <MAGMapper> mapper);

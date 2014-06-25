@@ -13,28 +13,25 @@
 
 @property (nonatomic, strong) NSEntityDescription *entityDescription;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, copy) NSPredicate *(^predicateProvider)(id source);
 
 @end
 
 @implementation MAGEntityFinder
 
 + (instancetype)entityFinderWithEntityDescription:(NSEntityDescription *)entityDescription
-                           inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
-                                        predicate:(NSPredicate *(^)(id source))predicateProvider {
+                           inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext {
     NSParameterAssert(entityDescription != nil);
     NSParameterAssert(managedObjectContext != nil);
-    NSParameterAssert(predicateProvider != nil);
     MAGEntityFinder *provider = [[self alloc] init];
     provider.entityDescription = entityDescription;
     provider.managedObjectContext = managedObjectContext;
-    provider.predicateProvider = predicateProvider;
     return provider;
 }
 
-- (NSManagedObject *)provideObjectFromObject:(id)object {
+- (NSManagedObject *)provideObjectFromObject:(NSPredicate *)predicate {
+    NSParameterAssert([predicate isKindOfClass:[NSPredicate class]]);
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:self.entityDescription.name];
-    fetchRequest.predicate = self.predicateProvider(object);
+    fetchRequest.predicate = predicate;
     NSError *error = nil;
     NSArray *results = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     if (error) {
