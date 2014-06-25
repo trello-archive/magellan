@@ -15,6 +15,8 @@
 		3C1369EE195B638400226CE6 /* MAGNilGuard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369ED195B638400226CE6 /* MAGNilGuard.m */; };
 		3C1369F1195B64DE00226CE6 /* MAGGuard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369F0195B64DE00226CE6 /* MAGGuard.m */; };
 		3C1369F4195B681F00226CE6 /* MAGMappedProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369F3195B681F00226CE6 /* MAGMappedProvider.m */; };
+		3C1369F7195B6EB400226CE6 /* MAGPredicateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369F6195B6EB400226CE6 /* MAGPredicateProxy.m */; };
+		3C1369F9195B6EFC00226CE6 /* PredicateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369F8195B6EFC00226CE6 /* PredicateTests.m */; };
 		3C3AF4751953710B001A3FFF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3AF4741953710B001A3FFF /* Foundation.framework */; };
 		3C3AF4831953710B001A3FFF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3AF4821953710B001A3FFF /* XCTest.framework */; };
 		3C3AF4841953710B001A3FFF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3AF4741953710B001A3FFF /* Foundation.framework */; };
@@ -74,6 +76,9 @@
 		3C1369F0195B64DE00226CE6 /* MAGGuard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGGuard.m; sourceTree = "<group>"; };
 		3C1369F2195B681F00226CE6 /* MAGMappedProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGMappedProvider.h; sourceTree = "<group>"; };
 		3C1369F3195B681F00226CE6 /* MAGMappedProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGMappedProvider.m; sourceTree = "<group>"; };
+		3C1369F5195B6EB400226CE6 /* MAGPredicateProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGPredicateProxy.h; sourceTree = "<group>"; };
+		3C1369F6195B6EB400226CE6 /* MAGPredicateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGPredicateProxy.m; sourceTree = "<group>"; };
+		3C1369F8195B6EFC00226CE6 /* PredicateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PredicateTests.m; sourceTree = "<group>"; };
 		3C3AF4711953710B001A3FFF /* libMagellan.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMagellan.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C3AF4741953710B001A3FFF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3C3AF4781953710B001A3FFF /* Magellan-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Magellan-Prefix.pch"; sourceTree = "<group>"; };
@@ -191,6 +196,7 @@
 				3C3AF4A519537988001A3FFF /* Generated */,
 				3C3AF4901953710B001A3FFF /* MagellanTests.m */,
 				3C3AF4B819538E1C001A3FFF /* MappingTests.m */,
+				3C1369F8195B6EFC00226CE6 /* PredicateTests.m */,
 				3C3AF4A219537954001A3FFF /* Model.xcdatamodeld */,
 				3C3AF4A9195379F0001A3FFF /* MAGModels.h */,
 				3C3AF4EC1959C683001A3FFF /* NSManagedObjectContext+Magellan.h */,
@@ -276,6 +282,8 @@
 				3C1369DE195A190700226CE6 /* MAGCollectionProvider.m */,
 				3C1369EF195B64DE00226CE6 /* MAGGuard.h */,
 				3C1369F0195B64DE00226CE6 /* MAGGuard.m */,
+				3C1369F5195B6EB400226CE6 /* MAGPredicateProxy.h */,
+				3C1369F6195B6EB400226CE6 /* MAGPredicateProxy.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -398,6 +406,7 @@
 				3C3AF4B219538AA5001A3FFF /* MAGSetter.m in Sources */,
 				3C3AF4E11958CA7D001A3FFF /* MAGEntityCreator.m in Sources */,
 				3C3AF4E81958E08C001A3FFF /* MAGFallbackProvider.m in Sources */,
+				3C1369F7195B6EB400226CE6 /* MAGPredicateProxy.m in Sources */,
 				3C1369F1195B64DE00226CE6 /* MAGGuard.m in Sources */,
 				3C1369E5195A1EAE00226CE6 /* MAGSubscripter.m in Sources */,
 				3C3AF4F7195A09FC001A3FFF /* MAGEntityProvider.m in Sources */,
@@ -419,6 +428,7 @@
 				3C1369EB195B42A200226CE6 /* MAGPerson.m in Sources */,
 				3C3AF4EE1959C683001A3FFF /* NSManagedObjectContext+Magellan.m in Sources */,
 				3C3AF4B919538E1C001A3FFF /* MappingTests.m in Sources */,
+				3C1369F9195B6EFC00226CE6 /* PredicateTests.m in Sources */,
 				3C3AF4911953710B001A3FFF /* MagellanTests.m in Sources */,
 				3C3AF4A419537954001A3FFF /* Model.xcdatamodeld in Sources */,
 				3C1369E8195B42A200226CE6 /* MAGShip.m in Sources */,
