@@ -10,6 +10,7 @@
 
 #import "MAGSetter.h"
 #import "MAGMappingSeries.h"
+#import "MAGNilGuard.h"
 
 #pragma mark Object Providers
 

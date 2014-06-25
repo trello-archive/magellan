@@ -11,7 +11,6 @@
 #define EXP_SHORTHAND
 #import <Expecta/Expecta.h>
 #import "MAGMapping.h"
-#import "MAGMasseuse.h"
 
 @interface MappingTests : XCTestCase
 @end
@@ -47,6 +46,22 @@
     [[MAGKeyPathExtractor keyPathExtractorWithKeyPath:@"firstName.length" mapper:[MAGSetter setterWithKeyPath:@"age"]]
      map:person to:person];
     expect(person.age).to.equal(4);
+}
+
+- (void)testSubscripting {
+    Person *person = [[Person alloc] init];
+    [[MAGSubscripter subscripterWithKey:@"name" mapper:[MAGSetter setterWithKeyPath:@"firstName"]]
+     map:@{@"name": @"Emily"} to:person];
+    expect(person.firstName).to.equal(@"Emily");
+}
+
+- (void)testSubscriptingKeyNotFound {
+    Person *person = [[Person alloc] init];
+
+    id <MAGMapper> subscripter = [MAGSubscripter subscripterWithKey:@"name" mapper:[MAGNilGuard nilGuardWithMapper:[MAGSetter setterWithKeyPath:@"firstName"]]];
+    [subscripter map:@{@"name": @"Emily"} to:person];
+    [subscripter map:@{} to:person];
+    expect(person.firstName).to.equal(@"Emily");
 }
 
 
