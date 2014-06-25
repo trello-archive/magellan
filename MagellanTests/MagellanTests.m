@@ -23,7 +23,7 @@ static NSManagedObjectContext *moc;
 static id <MAGMapper> personMapper, shipMapper;
 static MAGEntityFinder *personFinder, *shipFinder;
 static NSEntityDescription *personEntity, *shipEntity;
-static MAGEntityProvider *personProvider, *shipProvider;
+static id <MAGProvider> personProvider, shipProvider;
 
 @interface MagellanTests : XCTestCase
 
@@ -84,7 +84,7 @@ static MAGEntityProvider *personProvider, *shipProvider;
                                                                 return [NSPredicate predicateWithFormat:@"identifier = %@", [source valueForKey:@"id"]];
                                                             }];
 
-    personProvider = [MAGEntityProvider entityProviderWithEntityFinder:personFinder mapper:personMapper];
+    personProvider = MAGEntityProvider(personFinder, personMapper);
 
     shipMapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGSubscripter subscripterWithKey:@"id" mapper:[MAGSetter setterWithKeyPath:@"identifier"]],
                                                               [MAGSubscripter subscripterWithKey:@"name" mapper:[MAGSetter setterWithKeyPath:@"name"]],
@@ -96,7 +96,7 @@ static MAGEntityProvider *personProvider, *shipProvider;
                                                               return [NSPredicate predicateWithFormat:@"identifier = %@", [source valueForKey:@"id"]];
                                                           }];
 
-    shipProvider = [MAGEntityProvider entityProviderWithEntityFinder:shipFinder mapper:shipMapper];
+    shipProvider = MAGEntityProvider(shipFinder, shipMapper);
 }
 
 + (void)tearDown {

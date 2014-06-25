@@ -11,37 +11,17 @@
 #import "MAGEntityFinder.h"
 #import "MAGEntityCreator.h"
 #import "MAGMapper.h"
-#import <CoreData/CoreData.h>
+#import "MAGMappedProvider.h"
 
-@interface MAGEntityProvider ()
-
-@property (nonatomic, strong) MAGFallbackProvider *fallbackProvider;
-@property (nonatomic, strong) id <MAGMapper> mapper;
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-
-@end
-
-@implementation MAGEntityProvider
-
-+ (instancetype)entityProviderWithEntityFinder:(MAGEntityFinder *)entityFinder
-                                        mapper:(id <MAGMapper>)mapper {
-    NSParameterAssert(entityFinder != nil);
-    NSParameterAssert(mapper != nil);
-    MAGEntityProvider *entityProvider = [[MAGEntityProvider alloc] init];
-    entityProvider.mapper = mapper;
+id <MAGProvider> MAGEntityProvider(MAGEntityFinder *entityFinder, id <MAGMapper> mapper) {
+    NSCParameterAssert(entityFinder != nil);
+    NSCParameterAssert(mapper != nil);
 
     MAGEntityCreator *entityCreator = [MAGEntityCreator entityCreatorWithEntityDescription:entityFinder.entityDescription
                                                                     inManagedObjectContext:entityFinder.managedObjectContext];
-    entityProvider.fallbackProvider = [MAGFallbackProvider fallbackProviderWithPrimary:entityFinder
-                                                                             secondary:entityCreator];
+    MAGFallbackProvider *fallbackProvider = [MAGFallbackProvider fallbackProviderWithPrimary:entityFinder
+                                                                                   secondary:entityCreator];
 
-    return entityProvider;
+    return [MAGMappedProvider mappedProviderWithProvider:fallbackProvider mapper:mapper];
 }
 
-- (NSManagedObject *)provideObjectFromObject:(id)object {
-    NSManagedObject *managedObject = [self.fallbackProvider provideObjectFromObject:object];
-    [self.mapper map:object to:managedObject];
-    return managedObject;
-}
-
-@end

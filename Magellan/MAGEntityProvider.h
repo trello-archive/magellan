@@ -6,17 +6,7 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-#import "MAGProvider.h"
+@protocol MAGMapper, MAGProvider;
+@class MAGEntityFinder;
 
-@protocol MAGMapper;
-@class NSManagedObjectContext, MAGEntityFinder;
-
-@interface MAGEntityProvider : NSObject <MAGProvider>
-
-+ (instancetype)entityProviderWithEntityFinder:(MAGEntityFinder *)entityFinder
-                                        mapper:(id <MAGMapper>)mapper;
-
-@property (nonatomic, strong, readonly) id <MAGMapper> mapper;
-
-@end
+id <MAGProvider> extern MAGEntityProvider(MAGEntityFinder *entityFinder, id <MAGMapper> mapper);
