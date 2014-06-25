@@ -1,20 +1,20 @@
 //
-//  MAGMasseuse.m
+//  MAGMapperMasseuse.m
 //  Magellan
 //
 //  Created by Ian Henry on 6/19/14.
 //
 //
 
-#import "MAGMasseuse.h"
+#import "MAGMapperMasseuse.h"
 
-@interface MAGMasseuse ()
+@interface MAGMapperMasseuse ()
 
 @property (nonatomic, strong) id <MAGMapper> mapper;
 
 @end
 
-@implementation MAGMasseuse
+@implementation MAGMapperMasseuse
 
 - (instancetype)initWithMapper:(id <MAGMapper>)mapper {
     NSParameterAssert(mapper != nil);

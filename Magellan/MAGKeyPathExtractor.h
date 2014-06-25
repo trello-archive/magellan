@@ -6,9 +6,9 @@
 //
 //
 
-#import "MAGMasseuse.h"
+#import "MAGMapperMasseuse.h"
 
-@interface MAGKeyPathExtractor : MAGMasseuse
+@interface MAGKeyPathExtractor : MAGMapperMasseuse
 
 + (instancetype)keyPathExtractorWithKeyPath:(NSString *)keyPath mapper:(id <MAGMapper>)mapper;
 

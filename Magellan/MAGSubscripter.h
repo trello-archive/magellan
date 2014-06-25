@@ -6,9 +6,9 @@
 //
 //
 
-#import "MAGMasseuse.h"
+#import "MAGMapperMasseuse.h"
 
-@interface MAGSubscripter : MAGMasseuse
+@interface MAGSubscripter : MAGMapperMasseuse
 
 + (instancetype)subscripterWithKey:(id <NSCopying>)key mapper:(id <MAGMapper>)mapper;
 
