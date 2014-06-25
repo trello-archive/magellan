@@ -1,5 +1,5 @@
 //
-//  MAGProviderMasseuse.h
+//  MAGProvidingMapper.h
 //  Magellan
 //
 //  Created by Ian Henry on 6/24/14.
@@ -10,7 +10,7 @@
 
 @protocol MAGProvider, MAGMapper;
 
-@interface MAGProviderMasseuse : MAGMapperMasseuse
+@interface MAGProvidingMapper : MAGMapperMasseuse
 
 + (instancetype)providerMasseuseWithProvider:(id <MAGProvider>)provider mapper:(id <MAGMapper>)mapper;
 

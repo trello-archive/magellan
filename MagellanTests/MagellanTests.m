@@ -88,7 +88,7 @@ static id <MAGProvider> personProvider, shipProvider;
 
     shipMapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGSubscripter subscripterWithKey:@"id" mapper:[MAGSetter setterWithKeyPath:@"identifier"]],
                                                               [MAGSubscripter subscripterWithKey:@"name" mapper:[MAGSetter setterWithKeyPath:@"name"]],
-                                                              [MAGSubscripter subscripterWithKey:@"captain" mapper:[MAGProviderMasseuse providerMasseuseWithProvider:personProvider
+                                                              [MAGSubscripter subscripterWithKey:@"captain" mapper:[MAGProvidingMapper providerMasseuseWithProvider:personProvider
                                                                                                                                                               mapper:[MAGSetter setterWithKeyPath:@"captain"]]]]];
     shipFinder = [MAGEntityFinder entityFinderWithEntityDescription:shipEntity
                                              inManagedObjectContext:moc

@@ -1,25 +1,25 @@
 //
-//  MAGProviderMasseuse.m
+//  MAGProvidingMapper.m
 //  Magellan
 //
 //  Created by Ian Henry on 6/24/14.
 //
 //
 
-#import "MAGProviderMasseuse.h"
+#import "MAGProvidingMapper.h"
 #import "MAGProvider.h"
 
-@interface MAGProviderMasseuse ()
+@interface MAGProvidingMapper ()
 
 @property (nonatomic, strong) id <MAGProvider> provider;
 
 @end
 
-@implementation MAGProviderMasseuse
+@implementation MAGProvidingMapper
 
 + (instancetype)providerMasseuseWithProvider:(id <MAGProvider>)provider mapper:(id <MAGMapper>)mapper {
     NSParameterAssert(provider != nil);
-    MAGProviderMasseuse *providerMasseuse = [[self alloc] initWithMapper:mapper];
+    MAGProvidingMapper *providerMasseuse = [[self alloc] initWithMapper:mapper];
     providerMasseuse.provider = provider;
     return providerMasseuse;
 }
