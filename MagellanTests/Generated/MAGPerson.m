@@ -2,7 +2,7 @@
 //  MAGPerson.m
 //  Magellan
 //
-//  Created by Ian Henry on 6/23/14.
+//  Created by Ian Henry on 6/25/14.
 //
 //
 
@@ -12,9 +12,10 @@
 
 @implementation MAGPerson
 
-@dynamic name;
 @dynamic birthday;
 @dynamic identifier;
-@dynamic ship;
+@dynamic name;
+@dynamic shipCaptaining;
+@dynamic shipCrewing;
 
 @end

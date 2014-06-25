@@ -2,7 +2,7 @@
 //  MAGShip.m
 //  Magellan
 //
-//  Created by Ian Henry on 6/23/14.
+//  Created by Ian Henry on 6/25/14.
 //
 //
 
@@ -12,8 +12,9 @@
 
 @implementation MAGShip
 
-@dynamic name;
 @dynamic identifier;
-@dynamic people;
+@dynamic name;
+@dynamic captain;
+@dynamic crew;
 
 @end

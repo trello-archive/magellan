@@ -23,3 +23,4 @@
 
 #import "MAGKeyPathExtractor.h"
 #import "MAGSubscripter.h"
+#import "MAGProviderMasseuse.h"

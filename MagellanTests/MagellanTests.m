@@ -18,6 +18,7 @@
 static NSDictionary *magellanPayload;
 static NSDictionary *cartagenaPayload;
 static NSDictionary *trinidadPayload;
+static NSArray *fleetPayload;
 static NSManagedObjectContext *moc;
 static id <MAGMapper> personMapper, shipMapper;
 static MAGEntityFinder *personFinder, *shipFinder;
@@ -46,6 +47,27 @@ static MAGEntityProvider *personProvider, *shipProvider;
                         @"captain": magellanPayload,
                         @"type": @"caravel"};
 
+    fleetPayload = @[trinidadPayload,
+                     @{@"id": @"b",
+                       @"name": @"San Antonio",
+                       @"captain": cartagenaPayload,
+                       @"type": @"carrack"},
+                     @{@"id": @"c",
+                       @"name": @"Concepcion",
+                       @"captain": @{@"id": @"c",
+                                     @"name": @"Gaspar de Quesada"},
+                       @"type": @"carrack"},
+                     @{@"id": @"d",
+                       @"name": @"Santiago",
+                       @"captain": @{@"id": @"d",
+                                     @"name": @"Juan Serrano"},
+                       @"type": @"carrack"},
+                     @{@"id": @"e",
+                       @"name": @"Victoria",
+                       @"captain": @{@"id": @"e",
+                                     @"name": @"Luis Mendoza"},
+                       @"type": @"carrack"}];
+
     moc = [NSManagedObjectContext MR_defaultContext];
 
     personEntity = [NSEntityDescription entityForName:NSStringFromClass([MAGPerson class])
@@ -56,9 +78,6 @@ static MAGEntityProvider *personProvider, *shipProvider;
     personMapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGSubscripter subscripterWithKey:@"id" mapper:[MAGSetter setterWithKeyPath:@"identifier"]],
                                                                 [MAGSubscripter subscripterWithKey:@"name" mapper:[MAGSetter setterWithKeyPath:@"name"]]]];
 
-    shipMapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGSubscripter subscripterWithKey:@"id" mapper:[MAGSetter setterWithKeyPath:@"identifier"]],
-                                                              [MAGSubscripter subscripterWithKey:@"name" mapper:[MAGSetter setterWithKeyPath:@"name"]]]];
-
     personFinder = [MAGEntityFinder entityFinderWithEntityDescription:personEntity
                                                inManagedObjectContext:moc
                                                             predicate:^(id source) {
@@ -67,6 +86,10 @@ static MAGEntityProvider *personProvider, *shipProvider;
 
     personProvider = [MAGEntityProvider entityProviderWithEntityFinder:personFinder mapper:personMapper];
 
+    shipMapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGSubscripter subscripterWithKey:@"id" mapper:[MAGSetter setterWithKeyPath:@"identifier"]],
+                                                              [MAGSubscripter subscripterWithKey:@"name" mapper:[MAGSetter setterWithKeyPath:@"name"]],
+                                                              [MAGSubscripter subscripterWithKey:@"captain" mapper:[MAGProviderMasseuse providerMasseuseWithProvider:personProvider
+                                                                                                                                                              mapper:[MAGSetter setterWithKeyPath:@"captain"]]]]];
     shipFinder = [MAGEntityFinder entityFinderWithEntityDescription:shipEntity
                                              inManagedObjectContext:moc
                                                           predicate:^(id source) {
@@ -142,27 +165,31 @@ static MAGEntityProvider *personProvider, *shipProvider;
     expect([people[0] name]).equal(@"Ferdinand Magellan");
 }
 
-- (void)testNestedRelationship {
-    NSArray *payload = @[trinidadPayload,
-                         @{@"id": @"b",
-                           @"name": @"San Antonio",
-                           @"captain": cartagenaPayload,
-                           @"type": @"carrack"},
-                         @{@"identifier": @"c",
-                           @"name": @"Concepcion",
-                           @"captain": @{@"id": @"c",
-                                         @"name": @"Gaspar de Quesada"},
-                           @"type": @"carrack"},
-                         @{@"identifier": @"d",
-                           @"name": @"Santiago",
-                           @"captain": @{@"id": @"d",
-                                         @"name": @"Juan Serrano"},
-                           @"type": @"carrack"},
-                         @{@"identifier": @"e",
-                           @"name": @"Victoria",
-                           @"captain": @{@"id": @"e",
-                                         @"name": @"Luis Mendoza"},
-                           @"type": @"carrack"}];
+- (void)testRelationship {
+    expect([MAGPerson MR_countOfEntities]).equal(0);
+    expect([MAGShip MR_countOfEntities]).equal(0);
+
+    MAGShip *trinidad = [shipProvider provideObjectFromObject:trinidadPayload];
+    expect([MAGPerson MR_countOfEntities]).equal(1);
+    expect([MAGShip MR_countOfEntities]).equal(1);
+    expect(trinidad.name).equal(@"Trinidad");
+    expect(trinidad.captain.name).equal(@"Ferdinand Magellan");
+}
+
+- (void)testCollectionProviderDuplicates {
+    expect([MAGPerson MR_countOfEntities]).equal(0);
+    expect([MAGShip MR_countOfEntities]).equal(0);
+
+    MAGShip *trinidad = [shipProvider provideObjectFromObject:trinidadPayload];
+    expect([MAGPerson MR_countOfEntities]).equal(1);
+    expect([MAGShip MR_countOfEntities]).equal(1);
+
+    MAGCollectionProvider *collectionProvider = [MAGCollectionProvider collectionProviderWithElementProvider:shipProvider];
+    NSArray *ships = [collectionProvider provideObjectFromObject:fleetPayload];
+    expect(ships).haveCountOf(fleetPayload.count);
+    expect([MAGPerson MR_countOfEntities]).equal(5);
+    expect([MAGShip MR_countOfEntities]).equal(5);
+    expect(ships[0]).beIdenticalTo(trinidad);
 }
 
 @end

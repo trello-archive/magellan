@@ -2,7 +2,7 @@
 //  MAGShip.h
 //  Magellan
 //
-//  Created by Ian Henry on 6/23/14.
+//  Created by Ian Henry on 6/25/14.
 //
 //
 
@@ -13,16 +13,17 @@
 
 @interface MAGShip : NSManagedObject
 
-@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * identifier;
-@property (nonatomic, retain) NSSet *people;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) MAGPerson *captain;
+@property (nonatomic, retain) NSSet *crew;
 @end
 
 @interface MAGShip (CoreDataGeneratedAccessors)
 
-- (void)addPeopleObject:(MAGPerson *)value;
-- (void)removePeopleObject:(MAGPerson *)value;
-- (void)addPeople:(NSSet *)values;
-- (void)removePeople:(NSSet *)values;
+- (void)addCrewObject:(MAGPerson *)value;
+- (void)removeCrewObject:(MAGPerson *)value;
+- (void)addCrew:(NSSet *)values;
+- (void)removeCrew:(NSSet *)values;
 
 @end
