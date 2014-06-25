@@ -17,6 +17,7 @@
 		3C1369F4195B681F00226CE6 /* MAGMappedProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369F3195B681F00226CE6 /* MAGMappedProvider.m */; };
 		3C1369F7195B6EB400226CE6 /* MAGMutablePredicateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369F6195B6EB400226CE6 /* MAGMutablePredicateProxy.m */; };
 		3C1369F9195B6EFC00226CE6 /* PredicateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369F8195B6EFC00226CE6 /* PredicateTests.m */; };
+		3C1369FF195B7A7500226CE6 /* MAGProviderMasseuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369FE195B7A7500226CE6 /* MAGProviderMasseuse.m */; };
 		3C3AF4751953710B001A3FFF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3AF4741953710B001A3FFF /* Foundation.framework */; };
 		3C3AF4831953710B001A3FFF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3AF4821953710B001A3FFF /* XCTest.framework */; };
 		3C3AF4841953710B001A3FFF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3AF4741953710B001A3FFF /* Foundation.framework */; };
@@ -79,6 +80,8 @@
 		3C1369F5195B6EB400226CE6 /* MAGMutablePredicateProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGMutablePredicateProxy.h; sourceTree = "<group>"; };
 		3C1369F6195B6EB400226CE6 /* MAGMutablePredicateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGMutablePredicateProxy.m; sourceTree = "<group>"; };
 		3C1369F8195B6EFC00226CE6 /* PredicateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PredicateTests.m; sourceTree = "<group>"; };
+		3C1369FD195B7A7500226CE6 /* MAGProviderMasseuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGProviderMasseuse.h; sourceTree = "<group>"; };
+		3C1369FE195B7A7500226CE6 /* MAGProviderMasseuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGProviderMasseuse.m; sourceTree = "<group>"; };
 		3C3AF4711953710B001A3FFF /* libMagellan.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMagellan.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C3AF4741953710B001A3FFF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3C3AF4781953710B001A3FFF /* Magellan-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Magellan-Prefix.pch"; sourceTree = "<group>"; };
@@ -284,6 +287,8 @@
 				3C1369F0195B64DE00226CE6 /* MAGGuard.m */,
 				3C1369F5195B6EB400226CE6 /* MAGMutablePredicateProxy.h */,
 				3C1369F6195B6EB400226CE6 /* MAGMutablePredicateProxy.m */,
+				3C1369FD195B7A7500226CE6 /* MAGProviderMasseuse.h */,
+				3C1369FE195B7A7500226CE6 /* MAGProviderMasseuse.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -409,6 +414,7 @@
 				3C1369F7195B6EB400226CE6 /* MAGMutablePredicateProxy.m in Sources */,
 				3C1369F1195B64DE00226CE6 /* MAGGuard.m in Sources */,
 				3C1369E5195A1EAE00226CE6 /* MAGSubscripter.m in Sources */,
+				3C1369FF195B7A7500226CE6 /* MAGProviderMasseuse.m in Sources */,
 				3C3AF4F7195A09FC001A3FFF /* MAGEntityProvider.m in Sources */,
 				3C3AF4C419539491001A3FFF /* MAGMapperMasseuse.m in Sources */,
 				3C1369E2195A1C7000226CE6 /* MAGProvidingMapper.m in Sources */,
