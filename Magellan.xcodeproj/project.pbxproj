@@ -30,7 +30,7 @@
 		3C3AF4B619538D59001A3FFF /* MAGKeyPathExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4B519538D59001A3FFF /* MAGKeyPathExtractor.m */; };
 		3C3AF4B919538E1C001A3FFF /* MappingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4B819538E1C001A3FFF /* MappingTests.m */; };
 		3C3AF4BD19538E7E001A3FFF /* MAGMappingSeries.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4BC19538E7E001A3FFF /* MAGMappingSeries.m */; };
-		3C3AF4C419539491001A3FFF /* MAGMapperMasseuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4C319539491001A3FFF /* MAGMapperMasseuse.m */; };
+		3C3AF4C419539491001A3FFF /* MAGMasseuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4C319539491001A3FFF /* MAGMasseuse.m */; };
 		3C3AF4E11958CA7D001A3FFF /* MAGEntityCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4E01958CA7D001A3FFF /* MAGEntityCreator.m */; };
 		3C3AF4E81958E08C001A3FFF /* MAGFallbackProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4E71958E08C001A3FFF /* MAGFallbackProvider.m */; };
 		3C3AF4EB1958E483001A3FFF /* MAGEntityFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C3AF4EA1958E483001A3FFF /* MAGEntityFinder.m */; };
@@ -104,8 +104,8 @@
 		3C3AF4BA19538E51001A3FFF /* Magellan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Magellan.h; sourceTree = "<group>"; };
 		3C3AF4BB19538E7E001A3FFF /* MAGMappingSeries.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGMappingSeries.h; sourceTree = "<group>"; };
 		3C3AF4BC19538E7E001A3FFF /* MAGMappingSeries.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGMappingSeries.m; sourceTree = "<group>"; };
-		3C3AF4C219539491001A3FFF /* MAGMapperMasseuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGMapperMasseuse.h; sourceTree = "<group>"; };
-		3C3AF4C319539491001A3FFF /* MAGMapperMasseuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGMapperMasseuse.m; sourceTree = "<group>"; };
+		3C3AF4C219539491001A3FFF /* MAGMasseuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGMasseuse.h; sourceTree = "<group>"; };
+		3C3AF4C319539491001A3FFF /* MAGMasseuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGMasseuse.m; sourceTree = "<group>"; };
 		3C3AF4C519539561001A3FFF /* MAGMapping.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAGMapping.h; sourceTree = "<group>"; };
 		3C3AF4DE1958CA19001A3FFF /* MAGProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAGProvider.h; sourceTree = "<group>"; };
 		3C3AF4DF1958CA7D001A3FFF /* MAGEntityCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGEntityCreator.h; sourceTree = "<group>"; };
@@ -284,8 +284,8 @@
 			children = (
 				3C3AF4E61958E08C001A3FFF /* MAGFallbackProvider.h */,
 				3C3AF4E71958E08C001A3FFF /* MAGFallbackProvider.m */,
-				3C3AF4C219539491001A3FFF /* MAGMapperMasseuse.h */,
-				3C3AF4C319539491001A3FFF /* MAGMapperMasseuse.m */,
+				3C3AF4C219539491001A3FFF /* MAGMasseuse.h */,
+				3C3AF4C319539491001A3FFF /* MAGMasseuse.m */,
 				3C1369DD195A190700226CE6 /* MAGCollectionProvider.h */,
 				3C1369DE195A190700226CE6 /* MAGCollectionProvider.m */,
 				3C1369EF195B64DE00226CE6 /* MAGGuard.h */,
@@ -421,7 +421,7 @@
 				3C1369E5195A1EAE00226CE6 /* MAGSubscripter.m in Sources */,
 				3C1369FF195B7A7500226CE6 /* MAGProviderComposition.m in Sources */,
 				3C3AF4F7195A09FC001A3FFF /* MAGEntityProvider.m in Sources */,
-				3C3AF4C419539491001A3FFF /* MAGMapperMasseuse.m in Sources */,
+				3C3AF4C419539491001A3FFF /* MAGMasseuse.m in Sources */,
 				3C1369E2195A1C7000226CE6 /* MAGProvidingMapper.m in Sources */,
 				3C3AF4BD19538E7E001A3FFF /* MAGMappingSeries.m in Sources */,
 				3C1369F4195B681F00226CE6 /* MAGMappedProvider.m in Sources */,

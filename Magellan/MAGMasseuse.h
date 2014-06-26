@@ -1,5 +1,5 @@
 //
-//  MAGMapperMasseuse.h
+//  MAGMasseuse.h
 //  Magellan
 //
 //  Created by Ian Henry on 6/19/14.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MAGMapper.h"
 
-@interface MAGMapperMasseuse : NSObject <MAGMapper>
+@interface MAGMasseuse : NSObject <MAGMapper>
 
 - (instancetype)initWithMapper:(id <MAGMapper>)mapper;
 
@@ -20,4 +20,4 @@
 
 @end
 
-typedef MAGMapperMasseuse MAGMapperMasseur;
+typedef MAGMasseuse MAGMasseur;

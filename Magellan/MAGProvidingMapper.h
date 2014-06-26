@@ -6,11 +6,11 @@
 //
 //
 
-#import "MAGMapperMasseuse.h"
+#import "MAGMasseuse.h"
 
 @protocol MAGProvider, MAGMapper;
 
-@interface MAGProvidingMapper : MAGMapperMasseuse
+@interface MAGProvidingMapper : MAGMasseuse
 
 + (instancetype)providerMasseuseWithProvider:(id <MAGProvider>)provider mapper:(id <MAGMapper>)mapper;
 
