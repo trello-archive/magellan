@@ -7,31 +7,28 @@
 //
 
 #import "MAGMasseuse.h"
+#import "MAGProvider.h"
 
 @interface MAGMasseuse ()
 
+@property (nonatomic, strong) id <MAGProvider> provider;
 @property (nonatomic, strong) id <MAGMapper> mapper;
 
 @end
 
 @implementation MAGMasseuse
 
-- (instancetype)initWithMapper:(id <MAGMapper>)mapper {
++ (instancetype)masseuseWithProvider:(id<MAGProvider>)provider mapper:(id<MAGMapper>)mapper {
+    NSParameterAssert(provider != nil);
     NSParameterAssert(mapper != nil);
-    if (self = [super init]) {
-        self.mapper = mapper;
-    }
-    return self;
-}
-
-- (id)massage:(id)source {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"%s is an abstract method", __PRETTY_FUNCTION__]
-                                 userInfo:nil];
+    MAGMasseuse *masseuse = [[MAGMasseuse alloc] init];
+    masseuse.provider = provider;
+    masseuse.mapper = mapper;
+    return masseuse;
 }
 
 - (void)map:(id)source to:(id)dest {
-    return [self.mapper map:[self massage:source] to:dest];
+    [self.mapper map:[self.provider provideObjectFromObject:source] to:dest];
 }
 
 @end

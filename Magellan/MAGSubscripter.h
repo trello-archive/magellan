@@ -6,11 +6,12 @@
 //
 //
 
-#import "MAGMasseuse.h"
+#import <Foundation/Foundation.h>
+#import "MAGProvider.h"
 
-@interface MAGSubscripter : MAGMasseuse
+@interface MAGSubscripter : NSObject <MAGProvider>
 
-+ (instancetype)subscripterWithKey:(id <NSCopying>)key mapper:(id <MAGMapper>)mapper;
++ (instancetype)subscripterWithKey:(id <NSCopying>)key;
 
 @property (nonatomic, copy, readonly) id <NSCopying> key;
 

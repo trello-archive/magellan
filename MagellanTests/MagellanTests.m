@@ -75,17 +75,22 @@ static id <MAGProvider> personProvider, shipProvider;
     shipEntity = [NSEntityDescription entityForName:NSStringFromClass([MAGShip class])
                              inManagedObjectContext:moc];
 
-    identityMapper = [MAGSubscripter subscripterWithKey:@"id" mapper:[MAGSetter setterWithKeyPath:@"identifier"]];
+
+    identityMapper = [MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"id"]
+                                                mapper:[MAGSetter setterWithKeyPath:@"identifier"]];
 
     personMapper = [MAGMappingSeries mappingSeriesWithMappers:@[identityMapper,
-                                                                [MAGSubscripter subscripterWithKey:@"name" mapper:[MAGSetter setterWithKeyPath:@"name"]]]];
+                                                                [MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"name"]
+                                                                                           mapper:[MAGSetter setterWithKeyPath:@"name"]]]];
 
     personProvider = MAGEntityProvider(personEntity, moc, identityMapper, personMapper);
 
     shipMapper = [MAGMappingSeries mappingSeriesWithMappers:@[identityMapper,
-                                                              [MAGSubscripter subscripterWithKey:@"name" mapper:[MAGSetter setterWithKeyPath:@"name"]],
-                                                              [MAGSubscripter subscripterWithKey:@"captain" mapper:[MAGProvidingMapper providerMasseuseWithProvider:personProvider
-                                                                                                                                                             mapper:[MAGSetter setterWithKeyPath:@"captain"]]]]];
+                                                              [MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"name"]
+                                                                                         mapper:[MAGSetter setterWithKeyPath:@"name"]],
+                                                              [MAGMasseuse masseuseWithProvider:[MAGProviderComposition providerCompositionWithInner:[MAGSubscripter subscripterWithKey:@"captain"]
+                                                                                                                                               outer:personProvider]
+                                                                                         mapper:[MAGSetter setterWithKeyPath:@"captain"]]]];
     shipProvider = MAGEntityProvider(shipEntity, moc, identityMapper, shipMapper);
 }
 

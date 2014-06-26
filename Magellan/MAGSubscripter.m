@@ -16,14 +16,14 @@
 
 @implementation MAGSubscripter
 
-+ (instancetype)subscripterWithKey:(id <NSCopying>)key mapper:(id <MAGMapper>)mapper {
-    MAGSubscripter *subscripter = [[self alloc] initWithMapper:mapper];
++ (instancetype)subscripterWithKey:(id <NSCopying>)key {
+    MAGSubscripter *subscripter = [[self alloc] init];
     subscripter.key = key;
     return subscripter;
 }
 
-- (id)massage:(id)source {
-    return [source objectForKeyedSubscript:self.key];
+- (id)provideObjectFromObject:(id)input {
+    return [input objectForKeyedSubscript:self.key];
 }
 
 @end

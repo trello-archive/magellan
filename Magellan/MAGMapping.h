@@ -11,6 +11,9 @@
 #import "MAGSetter.h"
 #import "MAGMappingSeries.h"
 #import "MAGNilGuard.h"
+#import "MAGMasseuse.h"
+#import "MAGKeyPathProvider.h"
+#import "MAGSubscripter.h"
 
 #pragma mark Object Providers
 
@@ -21,9 +24,3 @@
 #import "MAGCollectionProvider.h"
 #import "MAGMappedProvider.h"
 #import "MAGProviderComposition.h"
-
-#pragma mark Masseuses
-
-#import "MAGKeyPathExtractor.h"
-#import "MAGSubscripter.h"
-#import "MAGProvidingMapper.h"

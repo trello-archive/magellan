@@ -9,15 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "MAGMapper.h"
 
+@protocol MAGProvider;
+
 @interface MAGMasseuse : NSObject <MAGMapper>
 
-- (instancetype)initWithMapper:(id <MAGMapper>)mapper;
++ (instancetype)masseuseWithProvider:(id <MAGProvider>)provider mapper:(id <MAGMapper>)mapper;
 
+@property (nonatomic, strong, readonly) id <MAGProvider> provider;
 @property (nonatomic, strong, readonly) id <MAGMapper> mapper;
-
-// protected... need to figure out how to represent that
-- (id)massage:(id)source;
 
 @end
 
 typedef MAGMasseuse MAGMasseur;
+
+extern id <MAGProvider> MAGMassager(id <MAGProvider> provider, id <MAGMapper> massager);

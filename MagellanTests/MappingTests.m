@@ -34,7 +34,8 @@
     Person *person = [[Person alloc] init];
     person.firstName = @"John";
 
-    [[MAGKeyPathExtractor keyPathExtractorWithKeyPath:@"firstName" mapper:[MAGSetter setterWithKeyPath:@"lastName"]]
+    [[MAGMasseuse masseuseWithProvider:[MAGKeyPathProvider keyPathProviderWithKeyPath:@"firstName"]
+                                mapper:[MAGSetter setterWithKeyPath:@"lastName"]]
      map:person to:person];
     expect(person.firstName).to.equal(person.lastName);
 }
@@ -43,14 +44,17 @@
     Person *person = [[Person alloc] init];
     person.firstName = @"John";
 
-    [[MAGKeyPathExtractor keyPathExtractorWithKeyPath:@"firstName.length" mapper:[MAGSetter setterWithKeyPath:@"age"]]
+    [[MAGMasseuse masseuseWithProvider:[MAGKeyPathProvider keyPathProviderWithKeyPath:@"firstName.length"]
+                                mapper:[MAGSetter setterWithKeyPath:@"age"]]
      map:person to:person];
     expect(person.age).to.equal(4);
 }
 
 - (void)testSubscripting {
     Person *person = [[Person alloc] init];
-    [[MAGSubscripter subscripterWithKey:@"name" mapper:[MAGSetter setterWithKeyPath:@"firstName"]]
+
+    [[MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"name"]
+                                mapper:[MAGNilGuard nilGuardWithMapper:[MAGSetter setterWithKeyPath:@"firstName"]]]
      map:@{@"name": @"Emily"} to:person];
     expect(person.firstName).to.equal(@"Emily");
 }
@@ -58,7 +62,8 @@
 - (void)testSubscriptingKeyNotFound {
     Person *person = [[Person alloc] init];
 
-    id <MAGMapper> subscripter = [MAGSubscripter subscripterWithKey:@"name" mapper:[MAGNilGuard nilGuardWithMapper:[MAGSetter setterWithKeyPath:@"firstName"]]];
+    id <MAGMapper> subscripter = [MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"name"]
+                                                            mapper:[MAGNilGuard nilGuardWithMapper:[MAGSetter setterWithKeyPath:@"firstName"]]];
     [subscripter map:@{@"name": @"Emily"} to:person];
     [subscripter map:@{} to:person];
     expect(person.firstName).to.equal(@"Emily");
