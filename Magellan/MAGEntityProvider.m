@@ -12,7 +12,8 @@
 #import "MAGEntityCreator.h"
 #import "MAGMapper.h"
 #import "MAGMappedProvider.h"
-#import "MAGPredicateProvidingMasseuse.h"
+#import "MAGPredicateProvider.h"
+#import "MAGProviderComposition.h"
 
 id <MAGProvider> extern MAGEntityProvider(NSEntityDescription *entity, NSManagedObjectContext *moc, id <MAGMapper> identityMapper, id <MAGMapper> mapper) {
     NSCParameterAssert(entity != nil);
@@ -23,8 +24,10 @@ id <MAGProvider> extern MAGEntityProvider(NSEntityDescription *entity, NSManaged
     id <MAGProvider> entityFinder = [MAGEntityFinder entityFinderWithEntityDescription:entity
                                                                 inManagedObjectContext:moc];
 
-    entityFinder = [MAGPredicateProvidingMasseuse predicateProvidingMasseuseWithMapper:identityMapper
-                                                                              provider:entityFinder];
+    id <MAGProvider> predicateConverter = [MAGPredicateProvider predicateProviderWithMapper:identityMapper];
+
+    entityFinder = [MAGProviderComposition providerCompositionWithInner:predicateConverter
+                                                                  outer:entityFinder];
 
     MAGEntityCreator *entityCreator = [MAGEntityCreator entityCreatorWithEntityDescription:entity
                                                                     inManagedObjectContext:moc];

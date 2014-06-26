@@ -20,6 +20,7 @@
 #import "MAGFallbackProvider.h"
 #import "MAGCollectionProvider.h"
 #import "MAGMappedProvider.h"
+#import "MAGProviderComposition.h"
 
 #pragma mark Masseuses
 

@@ -6,26 +6,26 @@
 //
 //
 
-#import "MAGPredicateProvidingMasseuse.h"
+#import "MAGPredicateProvider.h"
 #import "MAGMutablePredicateProxy.h"
 #import "MAGMapper.h"
 
-@interface MAGPredicateProvidingMasseuse ()
+@interface MAGPredicateProvider ()
 
 @property (nonatomic, strong) id <MAGMapper> mapper;
 
 @end
 
-@implementation MAGPredicateProvidingMasseuse
+@implementation MAGPredicateProvider
 
-+ (instancetype)predicateProvidingMasseuseWithMapper:(id <MAGMapper>)mapper provider:(id <MAGProvider>)provider {
++ (instancetype)predicateProviderWithMapper:(id <MAGMapper>)mapper {
     NSParameterAssert(mapper != nil);
-    MAGPredicateProvidingMasseuse *masseuse = [[MAGPredicateProvidingMasseuse alloc] initWithProvider:provider];
+    MAGPredicateProvider *masseuse = [[MAGPredicateProvider alloc] init];
     masseuse.mapper = mapper;
     return masseuse;
 }
 
-- (id)massage:(id)input {
+- (id)provideObjectFromObject:(id)input {
     MAGMutablePredicateProxy *proxy = [[MAGMutablePredicateProxy alloc] init];
     [self.mapper map:input to:proxy];
     return proxy.predicate;
