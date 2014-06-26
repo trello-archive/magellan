@@ -4,6 +4,8 @@
         <attribute name="birthday" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="bestFriends" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="MAGPerson" inverseName="bestFrinverse" inverseEntity="MAGPerson" syncable="YES"/>
+        <relationship name="bestFrinverse" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MAGPerson" inverseName="bestFriends" inverseEntity="MAGPerson" syncable="YES"/>
         <relationship name="shipCaptaining" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MAGShip" inverseName="captain" inverseEntity="MAGShip" syncable="YES"/>
         <relationship name="shipCrewing" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MAGShip" inverseName="crew" inverseEntity="MAGShip" syncable="YES"/>
     </entity>
@@ -14,7 +16,7 @@
         <relationship name="crew" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MAGPerson" inverseName="shipCrewing" inverseEntity="MAGPerson" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MAGPerson" positionX="-63" positionY="-18" width="128" height="118"/>
+        <element name="MAGPerson" positionX="-63" positionY="-18" width="128" height="148"/>
         <element name="MAGShip" positionX="-54" positionY="9" width="128" height="103"/>
     </elements>
 </model>

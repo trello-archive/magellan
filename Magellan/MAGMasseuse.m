@@ -27,8 +27,8 @@
     return masseuse;
 }
 
-- (void)map:(id)source to:(id)dest {
-    [self.mapper map:[self.provider provideObjectFromObject:source] to:dest];
+- (void)map:(id)input to:(id)target {
+    [self.mapper map:[self.provider provideObjectFromObject:input] to:target];
 }
 
 @end

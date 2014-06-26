@@ -2,7 +2,7 @@
 //  MAGShip.m
 //  Magellan
 //
-//  Created by Ian Henry on 6/25/14.
+//  Created by Ian Henry on 6/26/14.
 //
 //
 

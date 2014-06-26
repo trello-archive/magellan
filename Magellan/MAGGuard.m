@@ -30,9 +30,9 @@
                                  userInfo:nil];
 }
 
-- (void)map:(id)source to:(id)dest {
-    if ([self shouldMap:source]) {
-        [self.mapper map:source to:dest];
+- (void)map:(id)input to:(id)target {
+    if ([self shouldMap:input]) {
+        [self.mapper map:input to:target];
     }
 }
 

@@ -10,6 +10,6 @@
 
 @protocol MAGMapper <NSObject>
 
-- (void)map:(id)source to:(id)dest;
+- (void)map:(id)input to:(id)target;
 
 @end

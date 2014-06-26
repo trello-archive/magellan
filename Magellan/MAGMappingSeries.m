@@ -17,14 +17,15 @@
 @implementation MAGMappingSeries
 
 + (instancetype)mappingSeriesWithMappers:(NSArray *)mappers {
+    NSParameterAssert(mappers != nil);
     MAGMappingSeries *mappingSeries = [[MAGMappingSeries alloc] init];
     mappingSeries.mappers = mappers;
     return mappingSeries;
 }
 
-- (void)map:(id)source to:(id)dest {
+- (void)map:(id)input to:(id)target {
     for (id <MAGMapper> mapper in self.mappers) {
-        [mapper map:source to:dest];
+        [mapper map:input to:target];
     }
 }
 

@@ -22,8 +22,8 @@
     return setter;
 }
 
-- (void)map:(id)source to:(id)dest {
-    [dest setValue:source forKeyPath:self.keyPath];
+- (void)map:(id)input to:(id)target {
+    [target setValue:input forKeyPath:self.keyPath];
 }
 
 @end

@@ -21,5 +21,3 @@
 @end
 
 typedef MAGMasseuse MAGMasseur;
-
-extern id <MAGProvider> MAGMassager(id <MAGProvider> provider, id <MAGMapper> massager);

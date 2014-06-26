@@ -186,4 +186,71 @@ static id <MAGProvider> personProvider, shipProvider;
     expect(ships[0]).to.beIdenticalTo(trinidad);
 }
 
+- (void)testUnorderedToManyRelationship {
+    id <MAGMapper> crewMapper = MAGMakeMapper(@{@"crewmembers": MAGRelationshipUnionMapper(shipEntity.relationshipsByName[@"crew"], personProvider)});
+    id <MAGMapper> shipMapperWithCrew = [MAGMappingSeries mappingSeriesWithMappers:@[shipMapper, crewMapper]];
+    id <MAGProvider> shipProviderWithCrew = MAGEntityProvider(shipEntity, moc, identityMapper, shipMapperWithCrew);
+
+    NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithDictionary:trinidadPayload];
+    expect([MAGPerson MR_countOfEntities]).to.equal(0);
+    expect([MAGShip MR_countOfEntities]).to.equal(0);
+
+    payload[@"crewmembers"] = @[magellanPayload];
+    MAGShip *trinidad = [shipProviderWithCrew provideObjectFromObject:payload];
+    expect([MAGPerson MR_countOfEntities]).to.equal(1);
+    expect([MAGShip MR_countOfEntities]).to.equal(1);
+    expect(trinidad.crew).to.haveCountOf(1);
+    expect(trinidad.crew.anyObject).to.beIdenticalTo(trinidad.captain);
+
+    payload[@"crewmembers"] = @[cartagenaPayload];
+    expect([shipProviderWithCrew provideObjectFromObject:payload]).to.beIdenticalTo(trinidad);
+    expect([MAGPerson MR_countOfEntities]).to.equal(2);
+    expect(trinidad.crew).to.haveCountOf(2);
+
+    payload[@"crewmembers"] = @[];
+    expect([shipProviderWithCrew provideObjectFromObject:payload]).to.beIdenticalTo(trinidad);
+    expect([MAGPerson MR_countOfEntities]).to.equal(2);
+    expect(trinidad.crew).to.haveCountOf(2);
+
+    [payload removeObjectForKey:@"crewmembers"];
+    expect([shipProviderWithCrew provideObjectFromObject:payload]).to.beIdenticalTo(trinidad);
+    expect([MAGPerson MR_countOfEntities]).to.equal(2);
+    expect(trinidad.crew).to.haveCountOf(2);
+}
+
+- (void)testOrderedToManyRelationship {
+    id <MAGMapper> bestFriendsMapper = MAGMakeMapper(@{@"best_friends": MAGRelationshipUnionMapper(personEntity.relationshipsByName[@"bestFriends"], personProvider)});
+    id <MAGMapper> personMapperWithFriends = [MAGMappingSeries mappingSeriesWithMappers:@[personMapper, bestFriendsMapper]];
+    id <MAGProvider> personProviderWithFriends = MAGEntityProvider(personEntity, moc, identityMapper, personMapperWithFriends);
+
+    NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithDictionary:magellanPayload];
+    expect([MAGPerson MR_countOfEntities]).to.equal(0);
+
+    payload[@"best_friends"] = @[cartagenaPayload];
+    MAGPerson *magellan = [personProviderWithFriends provideObjectFromObject:payload];
+    expect([MAGPerson MR_countOfEntities]).to.equal(2);
+    expect(magellan.bestFriends).to.haveCountOf(1);
+
+    payload[@"best_friends"] = @[@{@"id": @"123", @"name": @"Ian Henry"}];
+    expect([personProviderWithFriends provideObjectFromObject:payload]).to.beIdenticalTo(magellan);
+    expect([MAGPerson MR_countOfEntities]).to.equal(3);
+    expect(magellan.bestFriends).to.haveCountOf(2);
+    expect([[magellan.bestFriends objectAtIndex:0] name]).to.equal(@"Juan de Cartagena");
+    expect([[magellan.bestFriends objectAtIndex:1] name]).to.equal(@"Ian Henry");
+
+    payload[@"best_friends"] = @[cartagenaPayload];
+    expect([personProviderWithFriends provideObjectFromObject:payload]).to.beIdenticalTo(magellan);
+    expect([MAGPerson MR_countOfEntities]).to.equal(3);
+    expect(magellan.bestFriends).to.haveCountOf(2);
+    expect([[magellan.bestFriends objectAtIndex:0] name]).to.equal(@"Juan de Cartagena");
+    expect([[magellan.bestFriends objectAtIndex:1] name]).to.equal(@"Ian Henry");
+
+    [payload removeObjectForKey:@"best_friends"];
+    expect([personProviderWithFriends provideObjectFromObject:payload]).to.beIdenticalTo(magellan);
+    expect([MAGPerson MR_countOfEntities]).to.equal(3);
+    expect(magellan.bestFriends).to.haveCountOf(2);
+    expect([[magellan.bestFriends objectAtIndex:0] name]).to.equal(@"Juan de Cartagena");
+    expect([[magellan.bestFriends objectAtIndex:1] name]).to.equal(@"Ian Henry");
+}
+
 @end

@@ -2,10 +2,11 @@
 //  MAGPerson.m
 //  Magellan
 //
-//  Created by Ian Henry on 6/25/14.
+//  Created by Ian Henry on 6/26/14.
 //
 //
 
+#import "MAGPerson.h"
 #import "MAGPerson.h"
 #import "MAGShip.h"
 
@@ -17,5 +18,7 @@
 @dynamic name;
 @dynamic shipCaptaining;
 @dynamic shipCrewing;
+@dynamic bestFriends;
+@dynamic bestFrinverse;
 
 @end
