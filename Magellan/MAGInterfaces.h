@@ -1,8 +1,8 @@
 //
-//  MAGMapper.h
+//  MAGInterfaces.h
 //  Magellan
 //
-//  Created by Ian Henry on 6/19/14.
+//  Created by Ian Henry on 6/27/14.
 //
 //
 
@@ -13,3 +13,5 @@
 - (void)map:(id)input to:(id)target;
 
 @end
+
+typedef id(^MAGProvider)(id input);

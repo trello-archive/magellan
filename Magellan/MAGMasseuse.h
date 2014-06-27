@@ -7,16 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MAGMapper.h"
-
-@protocol MAGProvider;
 
 @interface MAGMasseuse : NSObject <MAGMapper>
 
-+ (instancetype)masseuseWithProvider:(id <MAGProvider>)provider mapper:(id <MAGMapper>)mapper;
-
-@property (nonatomic, strong, readonly) id <MAGProvider> provider;
-@property (nonatomic, strong, readonly) id <MAGMapper> mapper;
++ (instancetype)masseuseWithProvider:(MAGProvider)provider mapper:(id <MAGMapper>)mapper;
 
 @end
 

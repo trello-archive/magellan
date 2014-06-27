@@ -9,4 +9,4 @@
 @protocol MAGMapper, MAGProvider;
 @class NSRelationshipDescription;
 
-extern id <MAGMapper> MAGRelationshipUnionMapper(NSRelationshipDescription *relationship, id <MAGProvider> elementProvider);
+extern id <MAGMapper> MAGRelationshipUnionMapper(NSRelationshipDescription *relationship, MAGProvider elementProvider);

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MAGMapper.h"
 
 @interface MAGBlockMapper : NSObject <MAGMapper>
 

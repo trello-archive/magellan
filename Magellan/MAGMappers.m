@@ -37,17 +37,16 @@ static NSSet *coerceToSet(id input) {
                                  userInfo:nil];
 }
 
-id <MAGMapper> MAGRelationshipUnionMapper(NSRelationshipDescription *relationship, id <MAGProvider> provider) {
+id <MAGMapper> MAGRelationshipUnionMapper(NSRelationshipDescription *relationship, MAGProvider provider) {
     NSCParameterAssert(relationship != nil);
     NSCParameterAssert(provider != nil);
-    return [MAGNilGuard nilGuardWithMapper:[MAGMasseuse masseuseWithProvider:[MAGProviderComposition providerCompositionWithInner:[MAGCollectionProvider collectionProviderWithElementProvider:provider]
-                                                                                                                            outer:[MAGBlockProvider providerWithBlock:^id(id input) {
+    return [MAGNilGuard nilGuardWithMapper:[MAGMasseuse masseuseWithProvider:MAGCompose(MAGCollectionProvider(provider), ^id(id input) {
         if (relationship.isOrdered) {
             return coerceToOrderedSet(input);
         } else {
             return coerceToSet(input);
         }
-    }]] mapper:[MAGBlockMapper mapperWithBlock:^(id input, id target) {
+    }) mapper:[MAGBlockMapper mapperWithBlock:^(id input, id target) {
         if (relationship.isOrdered) {
             [[target mutableOrderedSetValueForKeyPath:relationship.name] unionOrderedSet:input];
         } else {

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MAGMapper.h"
 
 extern id <MAGMapper> MAGMakeMapperWithFields(NSDictionary *fields);
 extern id <MAGMapper> MAGMakeMapper(id obj);

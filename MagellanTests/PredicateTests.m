@@ -25,9 +25,9 @@
 @implementation PredicateTests
 
 - (void)testPredicateProxy {
-    id <MAGMapper> mapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"key1"]
+    id <MAGMapper> mapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGMasseuse masseuseWithProvider:MAGSubscripter(@"key1")
                                                                                                     mapper:[MAGSetter setterWithKeyPath:@"foo"]],
-                                                                         [MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"key2"]
+                                                                         [MAGMasseuse masseuseWithProvider:MAGSubscripter(@"key2")
                                                                                                     mapper:[MAGSetter setterWithKeyPath:@"bar"]]]];
     NSDictionary *payload = @{@"key1": @"doesn't matter",
                               @"key2": @"not really part of the test"};
@@ -45,9 +45,9 @@
 }
 
 - (void)testPredicateOverwrites {
-    id <MAGMapper> mapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"key1"]
+    id <MAGMapper> mapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGMasseuse masseuseWithProvider:MAGSubscripter(@"key1")
                                                                                                     mapper:[MAGSetter setterWithKeyPath:@"foo"]],
-                                                                         [MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"key2"]
+                                                                         [MAGMasseuse masseuseWithProvider:MAGSubscripter(@"key2")
                                                                                                     mapper:[MAGSetter setterWithKeyPath:@"foo"]]]];
     NSDictionary *payload = @{@"key1": @"original",
                               @"key2": @"overwritten"};

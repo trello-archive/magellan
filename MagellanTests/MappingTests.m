@@ -34,7 +34,7 @@
     Person *person = [[Person alloc] init];
     person.firstName = @"John";
 
-    [[MAGMasseuse masseuseWithProvider:[MAGKeyPathProvider keyPathProviderWithKeyPath:@"firstName"]
+    [[MAGMasseuse masseuseWithProvider:MAGKeyPathExtractor(@"firstName")
                                 mapper:[MAGSetter setterWithKeyPath:@"lastName"]]
      map:person to:person];
     expect(person.firstName).to.equal(person.lastName);
@@ -44,7 +44,7 @@
     Person *person = [[Person alloc] init];
     person.firstName = @"John";
 
-    [[MAGMasseuse masseuseWithProvider:[MAGKeyPathProvider keyPathProviderWithKeyPath:@"firstName.length"]
+    [[MAGMasseuse masseuseWithProvider:MAGKeyPathExtractor(@"firstName.length")
                                 mapper:[MAGSetter setterWithKeyPath:@"age"]]
      map:person to:person];
     expect(person.age).to.equal(4);
@@ -53,7 +53,7 @@
 - (void)testSubscripting {
     Person *person = [[Person alloc] init];
 
-    [[MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"name"]
+    [[MAGMasseuse masseuseWithProvider:MAGSubscripter(@"name")
                                 mapper:[MAGNilGuard nilGuardWithMapper:[MAGSetter setterWithKeyPath:@"firstName"]]]
      map:@{@"name": @"Emily"} to:person];
     expect(person.firstName).to.equal(@"Emily");
@@ -62,12 +62,11 @@
 - (void)testSubscriptingKeyNotFound {
     Person *person = [[Person alloc] init];
 
-    id <MAGMapper> subscripter = [MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"name"]
+    id <MAGMapper> subscripter = [MAGMasseuse masseuseWithProvider:MAGSubscripter(@"name")
                                                             mapper:[MAGNilGuard nilGuardWithMapper:[MAGSetter setterWithKeyPath:@"firstName"]]];
     [subscripter map:@{@"name": @"Emily"} to:person];
     [subscripter map:@{} to:person];
     expect(person.firstName).to.equal(@"Emily");
 }
-
 
 @end

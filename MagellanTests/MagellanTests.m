@@ -14,7 +14,6 @@
 #import <Expecta/Expecta.h>
 #import <MagicalRecord/CoreData+MagicalRecord.h>
 #import "NSManagedObjectContext+Magellan.h"
-#import "MAGPredicateProvider.h"
 
 static NSDictionary *magellanPayload;
 static NSDictionary *cartagenaPayload;
@@ -23,7 +22,7 @@ static NSArray *fleetPayload;
 static NSManagedObjectContext *moc;
 static id <MAGMapper> identityMapper, personMapper, shipMapper;
 static NSEntityDescription *personEntity, *shipEntity;
-static id <MAGProvider> personProvider, shipProvider;
+static MAGProvider personProvider, shipProvider;
 
 @interface MagellanTests : XCTestCase
 
@@ -76,20 +75,19 @@ static id <MAGProvider> personProvider, shipProvider;
                              inManagedObjectContext:moc];
 
 
-    identityMapper = [MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"id"]
+    identityMapper = [MAGMasseuse masseuseWithProvider:MAGSubscripter(@"id")
                                                 mapper:[MAGSetter setterWithKeyPath:@"identifier"]];
 
     personMapper = [MAGMappingSeries mappingSeriesWithMappers:@[identityMapper,
-                                                                [MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"name"]
+                                                                [MAGMasseuse masseuseWithProvider:MAGSubscripter(@"name")
                                                                                            mapper:[MAGSetter setterWithKeyPath:@"name"]]]];
 
     personProvider = MAGEntityProvider(personEntity, moc, identityMapper, personMapper);
 
     shipMapper = [MAGMappingSeries mappingSeriesWithMappers:@[identityMapper,
-                                                              [MAGMasseuse masseuseWithProvider:[MAGSubscripter subscripterWithKey:@"name"]
+                                                              [MAGMasseuse masseuseWithProvider:MAGSubscripter(@"name")
                                                                                          mapper:[MAGSetter setterWithKeyPath:@"name"]],
-                                                              [MAGMasseuse masseuseWithProvider:[MAGProviderComposition providerCompositionWithInner:[MAGSubscripter subscripterWithKey:@"captain"]
-                                                                                                                                               outer:personProvider]
+                                                              [MAGMasseuse masseuseWithProvider:MAGCompose(MAGSubscripter(@"captain"), personProvider)
                                                                                          mapper:[MAGSetter setterWithKeyPath:@"captain"]]]];
     shipProvider = MAGEntityProvider(shipEntity, moc, identityMapper, shipMapper);
 }
@@ -113,48 +111,43 @@ static id <MAGProvider> personProvider, shipProvider;
 - (void)testEntityCreator {
     NSEntityDescription *personEntity = [NSEntityDescription entityForName:NSStringFromClass([MAGPerson class])
                                                     inManagedObjectContext:moc];
-    MAGEntityCreator *personCreator = [MAGEntityCreator entityCreatorWithEntityDescription:personEntity
-                                                                    inManagedObjectContext:moc];
-    [personCreator provideObjectFromObject:nil];
+    MAGProvider personCreator = MAGEntityCreator(personEntity, moc);
+    personCreator(nil);
     expect([MAGPerson MR_countOfEntities]).to.equal(1);
 }
 
 - (void)testEntityFind {
-    id <MAGProvider> finder = [MAGProviderComposition providerCompositionWithInner:[MAGPredicateProvider predicateProviderWithMapper:identityMapper]
-                                                                             outer:[MAGEntityFinder entityFinderWithEntityDescription:personEntity
-                                                                                                               inManagedObjectContext:moc]];
+    MAGProvider finder = MAGCompose(MAGPredicateProvider(identityMapper), MAGEntityFinder(personEntity, moc));
 
-    expect([finder provideObjectFromObject:magellanPayload]).to.beNil();
+    expect(finder(magellanPayload)).to.beNil();
 
-    id <MAGProvider> personCreator = [MAGMappedProvider mappedProviderWithProvider:[MAGEntityCreator entityCreatorWithEntityDescription:personEntity
-                                                                                                                 inManagedObjectContext:moc]
-                                                                            mapper:personMapper];
+    MAGProvider personCreator = MAGMappedProvider(MAGEntityCreator(personEntity, moc), personMapper);
     expect([MAGPerson MR_countOfEntities]).to.equal(0);
-    MAGPerson *magellan = [personCreator provideObjectFromObject:magellanPayload];
+    MAGPerson *magellan = personCreator(magellanPayload);
     expect([MAGPerson MR_countOfEntities]).to.equal(1);
 
-    expect([finder provideObjectFromObject:magellanPayload]).to.beIdenticalTo(magellan);
+    expect(finder(magellanPayload)).to.beIdenticalTo(magellan);
 }
 
 - (void)testEntityProvider {
     expect([MAGPerson MR_countOfEntities]).to.equal(0);
-    MAGPerson *magellanOne = [personProvider provideObjectFromObject:magellanPayload];
+    MAGPerson *magellanOne = personProvider(magellanPayload);
     expect(magellanOne.name).to.equal(@"Ferdinand Magellan");
     expect([MAGPerson MR_countOfEntities]).to.equal(1);
-    MAGPerson *magellanTwo = [personProvider provideObjectFromObject:magellanPayload];
+    MAGPerson *magellanTwo = personProvider(magellanPayload);
     expect([MAGPerson MR_countOfEntities]).to.equal(1);
     expect(magellanOne).to.equal(magellanTwo);
-    MAGPerson *cartagena = [personProvider provideObjectFromObject:cartagenaPayload];
+    MAGPerson *cartagena = personProvider(cartagenaPayload);
     expect([MAGPerson MR_countOfEntities]).to.equal(2);
     expect(cartagena.name).to.equal(@"Juan de Cartagena");
 }
 
 - (void)testCollectionProvider {
     NSArray *peoplePayloads = @[magellanPayload, cartagenaPayload];
-    MAGCollectionProvider *collectionProvider = [MAGCollectionProvider collectionProviderWithElementProvider:personProvider];
+    MAGProvider collectionProvider = MAGCollectionProvider(personProvider);
 
     expect([MAGPerson MR_countOfEntities]).to.equal(0);
-    NSArray *people = [collectionProvider provideObjectFromObject:peoplePayloads];
+    NSArray *people = collectionProvider(peoplePayloads);
     expect([MAGPerson MR_countOfEntities]).to.equal(2);
     expect([people[0] name]).to.equal(@"Ferdinand Magellan");
 }
@@ -163,7 +156,7 @@ static id <MAGProvider> personProvider, shipProvider;
     expect([MAGPerson MR_countOfEntities]).to.equal(0);
     expect([MAGShip MR_countOfEntities]).to.equal(0);
 
-    MAGShip *trinidad = [shipProvider provideObjectFromObject:trinidadPayload];
+    MAGShip *trinidad = shipProvider(trinidadPayload);
     expect([MAGPerson MR_countOfEntities]).to.equal(1);
     expect([MAGShip MR_countOfEntities]).to.equal(1);
     expect(trinidad.name).to.equal(@"Trinidad");
@@ -174,12 +167,12 @@ static id <MAGProvider> personProvider, shipProvider;
     expect([MAGPerson MR_countOfEntities]).to.equal(0);
     expect([MAGShip MR_countOfEntities]).to.equal(0);
 
-    MAGShip *trinidad = [shipProvider provideObjectFromObject:trinidadPayload];
+    MAGShip *trinidad = shipProvider(trinidadPayload);
     expect([MAGPerson MR_countOfEntities]).to.equal(1);
     expect([MAGShip MR_countOfEntities]).to.equal(1);
 
-    MAGCollectionProvider *collectionProvider = [MAGCollectionProvider collectionProviderWithElementProvider:shipProvider];
-    NSArray *ships = [collectionProvider provideObjectFromObject:fleetPayload];
+    MAGProvider collectionProvider = MAGCollectionProvider(shipProvider);
+    NSArray *ships = collectionProvider(fleetPayload);
     expect(ships).to.haveCountOf(fleetPayload.count);
     expect([MAGPerson MR_countOfEntities]).to.equal(5);
     expect([MAGShip MR_countOfEntities]).to.equal(5);
@@ -189,31 +182,31 @@ static id <MAGProvider> personProvider, shipProvider;
 - (void)testUnorderedToManyRelationship {
     id <MAGMapper> crewMapper = MAGMakeMapper(@{@"crewmembers": MAGRelationshipUnionMapper(shipEntity.relationshipsByName[@"crew"], personProvider)});
     id <MAGMapper> shipMapperWithCrew = [MAGMappingSeries mappingSeriesWithMappers:@[shipMapper, crewMapper]];
-    id <MAGProvider> shipProviderWithCrew = MAGEntityProvider(shipEntity, moc, identityMapper, shipMapperWithCrew);
+    MAGProvider shipProviderWithCrew = MAGEntityProvider(shipEntity, moc, identityMapper, shipMapperWithCrew);
 
     NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithDictionary:trinidadPayload];
     expect([MAGPerson MR_countOfEntities]).to.equal(0);
     expect([MAGShip MR_countOfEntities]).to.equal(0);
 
     payload[@"crewmembers"] = @[magellanPayload];
-    MAGShip *trinidad = [shipProviderWithCrew provideObjectFromObject:payload];
+    MAGShip *trinidad = shipProviderWithCrew(payload);
     expect([MAGPerson MR_countOfEntities]).to.equal(1);
     expect([MAGShip MR_countOfEntities]).to.equal(1);
     expect(trinidad.crew).to.haveCountOf(1);
     expect(trinidad.crew.anyObject).to.beIdenticalTo(trinidad.captain);
 
     payload[@"crewmembers"] = @[cartagenaPayload];
-    expect([shipProviderWithCrew provideObjectFromObject:payload]).to.beIdenticalTo(trinidad);
+    expect(shipProviderWithCrew(payload)).to.beIdenticalTo(trinidad);
     expect([MAGPerson MR_countOfEntities]).to.equal(2);
     expect(trinidad.crew).to.haveCountOf(2);
 
     payload[@"crewmembers"] = @[];
-    expect([shipProviderWithCrew provideObjectFromObject:payload]).to.beIdenticalTo(trinidad);
+    expect(shipProviderWithCrew(payload)).to.beIdenticalTo(trinidad);
     expect([MAGPerson MR_countOfEntities]).to.equal(2);
     expect(trinidad.crew).to.haveCountOf(2);
 
     [payload removeObjectForKey:@"crewmembers"];
-    expect([shipProviderWithCrew provideObjectFromObject:payload]).to.beIdenticalTo(trinidad);
+    expect(shipProviderWithCrew(payload)).to.beIdenticalTo(trinidad);
     expect([MAGPerson MR_countOfEntities]).to.equal(2);
     expect(trinidad.crew).to.haveCountOf(2);
 }
@@ -221,32 +214,32 @@ static id <MAGProvider> personProvider, shipProvider;
 - (void)testOrderedToManyRelationship {
     id <MAGMapper> bestFriendsMapper = MAGMakeMapper(@{@"best_friends": MAGRelationshipUnionMapper(personEntity.relationshipsByName[@"bestFriends"], personProvider)});
     id <MAGMapper> personMapperWithFriends = [MAGMappingSeries mappingSeriesWithMappers:@[personMapper, bestFriendsMapper]];
-    id <MAGProvider> personProviderWithFriends = MAGEntityProvider(personEntity, moc, identityMapper, personMapperWithFriends);
+    MAGProvider personProviderWithFriends = MAGEntityProvider(personEntity, moc, identityMapper, personMapperWithFriends);
 
     NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithDictionary:magellanPayload];
     expect([MAGPerson MR_countOfEntities]).to.equal(0);
 
     payload[@"best_friends"] = @[cartagenaPayload];
-    MAGPerson *magellan = [personProviderWithFriends provideObjectFromObject:payload];
+    MAGPerson *magellan = personProviderWithFriends(payload);
     expect([MAGPerson MR_countOfEntities]).to.equal(2);
     expect(magellan.bestFriends).to.haveCountOf(1);
 
     payload[@"best_friends"] = @[@{@"id": @"123", @"name": @"Ian Henry"}];
-    expect([personProviderWithFriends provideObjectFromObject:payload]).to.beIdenticalTo(magellan);
+    expect(personProviderWithFriends(payload)).to.beIdenticalTo(magellan);
     expect([MAGPerson MR_countOfEntities]).to.equal(3);
     expect(magellan.bestFriends).to.haveCountOf(2);
     expect([[magellan.bestFriends objectAtIndex:0] name]).to.equal(@"Juan de Cartagena");
     expect([[magellan.bestFriends objectAtIndex:1] name]).to.equal(@"Ian Henry");
 
     payload[@"best_friends"] = @[cartagenaPayload];
-    expect([personProviderWithFriends provideObjectFromObject:payload]).to.beIdenticalTo(magellan);
+    expect(personProviderWithFriends(payload)).to.beIdenticalTo(magellan);
     expect([MAGPerson MR_countOfEntities]).to.equal(3);
     expect(magellan.bestFriends).to.haveCountOf(2);
     expect([[magellan.bestFriends objectAtIndex:0] name]).to.equal(@"Juan de Cartagena");
     expect([[magellan.bestFriends objectAtIndex:1] name]).to.equal(@"Ian Henry");
 
     [payload removeObjectForKey:@"best_friends"];
-    expect([personProviderWithFriends provideObjectFromObject:payload]).to.beIdenticalTo(magellan);
+    expect(personProviderWithFriends(payload)).to.beIdenticalTo(magellan);
     expect([MAGPerson MR_countOfEntities]).to.equal(3);
     expect(magellan.bestFriends).to.haveCountOf(2);
     expect([[magellan.bestFriends objectAtIndex:0] name]).to.equal(@"Juan de Cartagena");
