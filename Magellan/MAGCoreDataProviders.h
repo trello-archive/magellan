@@ -10,4 +10,4 @@
 
 extern MAGProvider MAGEntityCreator(NSEntityDescription *entityDescription, NSManagedObjectContext *managedObjectContext);
 extern MAGProvider MAGEntityFinder(NSEntityDescription *entityDescription, NSManagedObjectContext *managedObjectContext);
-extern MAGProvider MAGEntityProvider(NSEntityDescription *entity, NSManagedObjectContext *moc, id <MAGMapper> identityMapper, id <MAGMapper> mapper);
+extern MAGProvider MAGEntityProvider(NSEntityDescription *entity, NSManagedObjectContext *moc, id <MAGMapper> identityMapper, id <MAGMapper> fieldsMapper);

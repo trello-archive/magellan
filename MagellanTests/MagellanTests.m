@@ -20,7 +20,7 @@ static NSDictionary *cartagenaPayload;
 static NSDictionary *trinidadPayload;
 static NSArray *fleetPayload;
 static NSManagedObjectContext *moc;
-static id <MAGMapper> identityMapper, personMapper, shipMapper;
+static id <MAGMapper> identityMapper, personFieldsMapper, shipFieldsMapper;
 static NSEntityDescription *personEntity, *shipEntity;
 static MAGProvider personProvider, shipProvider;
 
@@ -78,18 +78,16 @@ static MAGProvider personProvider, shipProvider;
     identityMapper = [MAGMasseuse masseuseWithProvider:MAGSubscripter(@"id")
                                                 mapper:[MAGSetter setterWithKeyPath:@"identifier"]];
 
-    personMapper = [MAGMappingSeries mappingSeriesWithMappers:@[identityMapper,
-                                                                [MAGMasseuse masseuseWithProvider:MAGSubscripter(@"name")
-                                                                                           mapper:[MAGSetter setterWithKeyPath:@"name"]]]];
+    personFieldsMapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGMasseuse masseuseWithProvider:MAGSubscripter(@"name")
+                                                                                                 mapper:[MAGSetter setterWithKeyPath:@"name"]]]];
 
-    personProvider = MAGEntityProvider(personEntity, moc, identityMapper, personMapper);
+    personProvider = MAGEntityProvider(personEntity, moc, identityMapper, personFieldsMapper);
 
-    shipMapper = [MAGMappingSeries mappingSeriesWithMappers:@[identityMapper,
-                                                              [MAGMasseuse masseuseWithProvider:MAGSubscripter(@"name")
-                                                                                         mapper:[MAGSetter setterWithKeyPath:@"name"]],
-                                                              [MAGMasseuse masseuseWithProvider:MAGCompose(MAGSubscripter(@"captain"), personProvider)
-                                                                                         mapper:[MAGSetter setterWithKeyPath:@"captain"]]]];
-    shipProvider = MAGEntityProvider(shipEntity, moc, identityMapper, shipMapper);
+    shipFieldsMapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGMasseuse masseuseWithProvider:MAGSubscripter(@"name")
+                                                                                               mapper:[MAGSetter setterWithKeyPath:@"name"]],
+                                                                    [MAGMasseuse masseuseWithProvider:MAGCompose(MAGSubscripter(@"captain"), personProvider)
+                                                                                               mapper:[MAGSetter setterWithKeyPath:@"captain"]]]];
+    shipProvider = MAGEntityProvider(shipEntity, moc, identityMapper, shipFieldsMapper);
 }
 
 + (void)tearDown {
@@ -121,7 +119,7 @@ static MAGProvider personProvider, shipProvider;
 
     expect(finder(magellanPayload)).to.beNil();
 
-    MAGProvider personCreator = MAGMappedProvider(MAGEntityCreator(personEntity, moc), personMapper);
+    MAGProvider personCreator = MAGMappedProvider(MAGMappedProvider(MAGEntityCreator(personEntity, moc), identityMapper), personFieldsMapper);
     expect([MAGPerson MR_countOfEntities]).to.equal(0);
     MAGPerson *magellan = personCreator(magellanPayload);
     expect([MAGPerson MR_countOfEntities]).to.equal(1);
@@ -181,7 +179,7 @@ static MAGProvider personProvider, shipProvider;
 
 - (void)testUnorderedToManyRelationship {
     id <MAGMapper> crewMapper = MAGMakeMapper(@{@"crewmembers": MAGRelationshipUnionMapper(shipEntity.relationshipsByName[@"crew"], personProvider)});
-    id <MAGMapper> shipMapperWithCrew = [MAGMappingSeries mappingSeriesWithMappers:@[shipMapper, crewMapper]];
+    id <MAGMapper> shipMapperWithCrew = [MAGMappingSeries mappingSeriesWithMappers:@[shipFieldsMapper, crewMapper]];
     MAGProvider shipProviderWithCrew = MAGEntityProvider(shipEntity, moc, identityMapper, shipMapperWithCrew);
 
     NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithDictionary:trinidadPayload];
@@ -213,7 +211,7 @@ static MAGProvider personProvider, shipProvider;
 
 - (void)testOrderedToManyRelationship {
     id <MAGMapper> bestFriendsMapper = MAGMakeMapper(@{@"best_friends": MAGRelationshipUnionMapper(personEntity.relationshipsByName[@"bestFriends"], personProvider)});
-    id <MAGMapper> personMapperWithFriends = [MAGMappingSeries mappingSeriesWithMappers:@[personMapper, bestFriendsMapper]];
+    id <MAGMapper> personMapperWithFriends = [MAGMappingSeries mappingSeriesWithMappers:@[personFieldsMapper, bestFriendsMapper]];
     MAGProvider personProviderWithFriends = MAGEntityProvider(personEntity, moc, identityMapper, personMapperWithFriends);
 
     NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithDictionary:magellanPayload];

@@ -8,6 +8,7 @@
 
 #import "MAGCoreDataProviders.h"
 #import "MAGProviders.h"
+#import "MAGMappingSeries.h"
 #import <CoreData/CoreData.h>
 
 extern MAGProvider MAGEntityCreator(NSEntityDescription *entityDescription, NSManagedObjectContext *managedObjectContext) {
@@ -48,17 +49,17 @@ extern MAGProvider MAGEntityFinder(NSEntityDescription *entityDescription, NSMan
     };
 }
 
-MAGProvider MAGEntityProvider(NSEntityDescription *entity, NSManagedObjectContext *moc, id <MAGMapper> identityMapper, id <MAGMapper> mapper) {
+MAGProvider MAGEntityProvider(NSEntityDescription *entity, NSManagedObjectContext *moc, id <MAGMapper> identityMapper, id <MAGMapper> fieldsMapper) {
     NSCParameterAssert(entity != nil);
     NSCParameterAssert(moc != nil);
     NSCParameterAssert(identityMapper != nil);
-    NSCParameterAssert(mapper != nil);
+    NSCParameterAssert(fieldsMapper != nil);
 
     MAGProvider entityFinder = MAGCompose(MAGPredicateProvider(identityMapper),
                                           MAGEntityFinder(entity, moc));
 
     return MAGMappedProvider(MAGFallback(entityFinder,
-                                         MAGEntityCreator(entity, moc)),
-                             mapper);
+                                         MAGMappedProvider(MAGEntityCreator(entity, moc),
+                                                           identityMapper)),
+                             fieldsMapper);
 }
-
