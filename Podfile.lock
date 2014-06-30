@@ -3,13 +3,16 @@ PODS:
   - MagicalRecord (2.2):
     - MagicalRecord/Core
   - MagicalRecord/Core (2.2)
+  - Nocilla (0.8.1)
 
 DEPENDENCIES:
   - Expecta (~> 0.3.0)
   - MagicalRecord (~> 2.2)
+  - Nocilla (~> 0.8.1)
 
 SPEC CHECKSUMS:
   Expecta: ce8a51b9fad15a2cd573b291cb2909aaed865350
   MagicalRecord: 2b471584fc9e3137f3d0a56967917baa4979e224
+  Nocilla: e573c2bf9113c8d77782b695a2f9362b7bc44e72
 
 COCOAPODS: 0.33.1
