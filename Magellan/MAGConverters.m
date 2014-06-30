@@ -1,16 +1,16 @@
 //
-//  MAGProviders.m
+//  MAGConverters.m
 //  Magellan
 //
 //  Created by Ian Henry on 6/26/14.
 //
 //
 
-#import "MAGProviders.h"
+#import "MAGConverters.h"
 #import "MAGMutablePredicateProxy.h"
 
 #define MAGCombinator(name, body) \
-MAGProvider name(MAGProvider a, MAGProvider b) { \
+MAGConverter name(MAGConverter a, MAGConverter b) { \
     NSCParameterAssert(a != nil); \
     NSCParameterAssert(b != nil); \
     return ^(id input) { \
@@ -21,7 +21,7 @@ MAGProvider name(MAGProvider a, MAGProvider b) { \
 MAGCombinator(MAGCompose, b(a(input)))
 MAGCombinator(MAGFallback, a(input) ?: b(input))
 
-extern MAGProvider MAGSubscripter(NSObject <NSCopying> *key) {
+extern MAGConverter MAGSubscripter(NSObject <NSCopying> *key) {
     NSCParameterAssert(key != nil);
     key = [key copy];
     return ^(id input) {
@@ -29,7 +29,7 @@ extern MAGProvider MAGSubscripter(NSObject <NSCopying> *key) {
     };
 }
 
-extern MAGProvider MAGKeyPathExtractor(NSString *keyPath) {
+extern MAGConverter MAGKeyPathExtractor(NSString *keyPath) {
     NSCParameterAssert(keyPath != nil);
     keyPath = [keyPath copy];
     return ^(id input) {
@@ -37,7 +37,7 @@ extern MAGProvider MAGKeyPathExtractor(NSString *keyPath) {
     };
 }
 
-extern MAGProvider MAGPredicateProvider(id <MAGMapper> mapper) {
+extern MAGConverter MAGPredicateConverter(id <MAGMapper> mapper) {
     NSCParameterAssert(mapper != nil);
     return ^(id input) {
         MAGMutablePredicateProxy *proxy = [[MAGMutablePredicateProxy alloc] init];
@@ -46,7 +46,7 @@ extern MAGProvider MAGPredicateProvider(id <MAGMapper> mapper) {
     };
 }
 
-extern MAGProvider MAGMappedProvider(MAGProvider provider, id <MAGMapper> mapper) {
+extern MAGConverter MAGMappedConverter(MAGConverter provider, id <MAGMapper> mapper) {
     NSCParameterAssert(provider != nil);
     NSCParameterAssert(mapper != nil);
     return ^(id input) {
@@ -56,13 +56,13 @@ extern MAGProvider MAGMappedProvider(MAGProvider provider, id <MAGMapper> mapper
     };
 }
 
-extern MAGProvider MAGCollectionProvider(MAGProvider elementProvider) {
-    NSCParameterAssert(elementProvider != nil);
+extern MAGConverter MAGCollectionConverter(MAGConverter elementConverter) {
+    NSCParameterAssert(elementConverter != nil);
     return ^(id <NSObject, NSFastEnumeration> collection) {
         NSCParameterAssert([collection conformsToProtocol:@protocol(NSFastEnumeration)]);
         NSMutableArray *result = [[NSMutableArray alloc] init];
         for (id element in collection) {
-            [result addObject:elementProvider(element)];
+            [result addObject:elementConverter(element)];
         }
         return result;
     };

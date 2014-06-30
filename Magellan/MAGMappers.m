@@ -53,7 +53,7 @@ static id <MAGMapper> MAGOrderedSetUnioner() {
     }];
 }
 
-static MAGProvider MAGRelationshipExtractor(NSRelationshipDescription *relationship) {
+static MAGConverter MAGRelationshipExtractor(NSRelationshipDescription *relationship) {
     return ^id(NSManagedObject *input) {
         if (relationship.isOrdered) {
             return [input mutableOrderedSetValueForKeyPath:relationship.name];
@@ -63,29 +63,35 @@ static MAGProvider MAGRelationshipExtractor(NSRelationshipDescription *relations
     };
 }
 
-id <MAGMapper> MAGRelationshipUnionMapper(NSRelationshipDescription *relationship, MAGProvider elementProvider) {
-    return MAGRelationshipMapper(relationship, elementProvider, relationship.isOrdered ? MAGOrderedSetUnioner() : MAGSetUnioner());
+id <MAGMapper> MAGRelationshipUnionMapper(NSRelationshipDescription *relationship, MAGConverter elementConverter) {
+    return MAGRelationshipMapper(relationship, elementConverter, relationship.isOrdered ? MAGOrderedSetUnioner() : MAGSetUnioner());
 }
 
-id <MAGMapper> MAGRelationshipMapper(NSRelationshipDescription *relationship, MAGProvider elementProvider, id <MAGMapper> mapper) {
-    NSCAssert(relationship.isToMany, @"MAGRelationshipMapper is only suitable for to-many relationships. For to-one, just use a setter with an entity providing masseuse.");
+id <MAGMapper> MAGRelationshipMapper(NSRelationshipDescription *relationship, MAGConverter elementConverter, id <MAGMapper> mapper) {
+    NSCAssert(relationship.isToMany, @"MAGRelationshipMapper is only suitable for to-many relationships. For to-one, just use MAGConvertInput + MAGSetter.");
     NSCParameterAssert(relationship != nil);
-    NSCParameterAssert(elementProvider != nil);
+    NSCParameterAssert(elementConverter != nil);
     NSCParameterAssert(mapper != nil);
-    return [MAGNilGuard nilGuardWithMapper:[MAGMasseuse masseuseWithProvider:MAGCompose(MAGCollectionProvider(elementProvider), ^id(id input) {
+    return [MAGNilGuard nilGuardWithMapper:MAGConvertInput(MAGCompose(MAGCollectionConverter(elementConverter), ^id(id input) {
         if (relationship.isOrdered) {
             return coerceToOrderedSet(input);
         } else {
             return coerceToSet(input);
         }
-    }) mapper:MAGConvertTarget(mapper, MAGRelationshipExtractor(relationship))]];
+    }), MAGConvertTarget(MAGRelationshipExtractor(relationship), mapper))];
 }
 
-extern id <MAGMapper> MAGConvertInput(id <MAGMapper> mapper, MAGProvider provider) {
-    return [MAGMasseuse masseuseWithProvider:provider mapper:mapper];
+id <MAGMapper> MAGConvertInput(MAGConverter provider, id <MAGMapper> mapper) {
+    NSCParameterAssert(mapper != nil);
+    NSCParameterAssert(provider != nil);
+    return [MAGBlockMapper mapperWithBlock:^(id input, id target) {
+        [mapper map:provider(input) to:target];
+    }];
 }
 
-extern id <MAGMapper> MAGConvertTarget(id <MAGMapper> mapper, MAGProvider provider) {
+id <MAGMapper> MAGConvertTarget(MAGConverter provider, id <MAGMapper> mapper) {
+    NSCParameterAssert(mapper != nil);
+    NSCParameterAssert(provider != nil);
     return [MAGBlockMapper mapperWithBlock:^(id input, id target) {
         [mapper map:input to:provider(target)];
     }];

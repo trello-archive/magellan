@@ -25,10 +25,8 @@
 @implementation PredicateTests
 
 - (void)testPredicateProxy {
-    id <MAGMapper> mapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGMasseuse masseuseWithProvider:MAGSubscripter(@"key1")
-                                                                                                    mapper:[MAGSetter setterWithKeyPath:@"foo"]],
-                                                                         [MAGMasseuse masseuseWithProvider:MAGSubscripter(@"key2")
-                                                                                                    mapper:[MAGSetter setterWithKeyPath:@"bar"]]]];
+    id <MAGMapper> mapper = [MAGMappingSeries mappingSeriesWithMappers:@[MAGConvertInput(MAGSubscripter(@"key1"), [MAGSetter setterWithKeyPath:@"foo"]),
+                                                                         MAGConvertInput(MAGSubscripter(@"key2"), [MAGSetter setterWithKeyPath:@"bar"])]];
     NSDictionary *payload = @{@"key1": @"doesn't matter",
                               @"key2": @"not really part of the test"};
     MAGMutablePredicateProxy *predicateProxy = [[MAGMutablePredicateProxy alloc] init];
@@ -45,10 +43,8 @@
 }
 
 - (void)testPredicateOverwrites {
-    id <MAGMapper> mapper = [MAGMappingSeries mappingSeriesWithMappers:@[[MAGMasseuse masseuseWithProvider:MAGSubscripter(@"key1")
-                                                                                                    mapper:[MAGSetter setterWithKeyPath:@"foo"]],
-                                                                         [MAGMasseuse masseuseWithProvider:MAGSubscripter(@"key2")
-                                                                                                    mapper:[MAGSetter setterWithKeyPath:@"foo"]]]];
+    id <MAGMapper> mapper = [MAGMappingSeries mappingSeriesWithMappers:@[MAGConvertInput(MAGSubscripter(@"key1"), [MAGSetter setterWithKeyPath:@"foo"]),
+                                                                         MAGConvertInput(MAGSubscripter(@"key2"), [MAGSetter setterWithKeyPath:@"foo"])]];
     NSDictionary *payload = @{@"key1": @"original",
                               @"key2": @"overwritten"};
     MAGMutablePredicateProxy *predicateProxy = [[MAGMutablePredicateProxy alloc] init];

@@ -1,17 +1,17 @@
 //
-//  MAGCoreDataProviders.m
+//  MAGCoreDataConverters.m
 //  Magellan
 //
 //  Created by Ian Henry on 6/27/14.
 //
 //
 
-#import "MAGCoreDataProviders.h"
-#import "MAGProviders.h"
+#import "MAGCoreDataConverters.h"
+#import "MAGConverters.h"
 #import "MAGMappingSeries.h"
 #import <CoreData/CoreData.h>
 
-extern MAGProvider MAGEntityCreator(NSEntityDescription *entityDescription, NSManagedObjectContext *managedObjectContext) {
+extern MAGConverter MAGEntityCreator(NSEntityDescription *entityDescription, NSManagedObjectContext *managedObjectContext) {
     NSCParameterAssert(entityDescription != nil);
     NSCParameterAssert(managedObjectContext != nil);
     return ^(id input) {
@@ -21,7 +21,7 @@ extern MAGProvider MAGEntityCreator(NSEntityDescription *entityDescription, NSMa
 }
 
 
-extern MAGProvider MAGEntityFinder(NSEntityDescription *entityDescription, NSManagedObjectContext *managedObjectContext) {
+extern MAGConverter MAGEntityFinder(NSEntityDescription *entityDescription, NSManagedObjectContext *managedObjectContext) {
     NSCParameterAssert(entityDescription != nil);
     NSCParameterAssert(managedObjectContext != nil);
     return ^id(id predicate) {
@@ -49,17 +49,17 @@ extern MAGProvider MAGEntityFinder(NSEntityDescription *entityDescription, NSMan
     };
 }
 
-MAGProvider MAGEntityProvider(NSEntityDescription *entity, NSManagedObjectContext *moc, id <MAGMapper> identityMapper, id <MAGMapper> fieldsMapper) {
+MAGConverter MAGEntityConverter(NSEntityDescription *entity, NSManagedObjectContext *moc, id <MAGMapper> identityMapper, id <MAGMapper> fieldsMapper) {
     NSCParameterAssert(entity != nil);
     NSCParameterAssert(moc != nil);
     NSCParameterAssert(identityMapper != nil);
     NSCParameterAssert(fieldsMapper != nil);
 
-    MAGProvider entityFinder = MAGCompose(MAGPredicateProvider(identityMapper),
+    MAGConverter entityFinder = MAGCompose(MAGPredicateConverter(identityMapper),
                                           MAGEntityFinder(entity, moc));
 
-    return MAGMappedProvider(MAGFallback(entityFinder,
-                                         MAGMappedProvider(MAGEntityCreator(entity, moc),
+    return MAGMappedConverter(MAGFallback(entityFinder,
+                                         MAGMappedConverter(MAGEntityCreator(entity, moc),
                                                            identityMapper)),
                              fieldsMapper);
 }

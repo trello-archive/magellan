@@ -15,11 +15,10 @@
 #import "MAGSetter.h"
 #import "MAGMappingSeries.h"
 #import "MAGNilGuard.h"
-#import "MAGMasseuse.h"
 #import "MAGBlockMapper.h"
 #import "MAGMappers.h"
 
-#pragma mark Object Providers
+#pragma mark Object Converters
 
-#import "MAGProviders.h"
-#import "MAGCoreDataProviders.h"
+#import "MAGConverters.h"
+#import "MAGCoreDataConverters.h"

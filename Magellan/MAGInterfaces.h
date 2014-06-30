@@ -14,4 +14,4 @@
 
 @end
 
-typedef id(^MAGProvider)(id input);
+typedef id(^MAGConverter)(id input);

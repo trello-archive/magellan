@@ -31,8 +31,7 @@ extern id <MAGMapper> MAGMakeMapperWithFields(NSDictionary *fields) {
     NSMutableArray *mappers = [[NSMutableArray alloc] init];
 
     [fields enumerateKeysAndObjectsUsingBlock:^(id <NSCopying> key, id obj, BOOL *stop) {
-        [mappers addObject:[MAGMasseuse masseuseWithProvider:MAGSubscripter(key)
-                                                      mapper:[MAGNilGuard nilGuardWithMapper:MAGMakeMapper(obj)]]];
+        [mappers addObject:MAGConvertInput(MAGSubscripter(key), [MAGNilGuard nilGuardWithMapper:MAGMakeMapper(obj)])];
     }];
 
     return [MAGMappingSeries mappingSeriesWithMappers:mappers];
