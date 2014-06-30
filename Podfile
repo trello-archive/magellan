@@ -1,4 +1,5 @@
 target :Magellan do
+    pod 'AFNetworking', '~> 2.3.1'
 end
 
 target :MagellanTests do
