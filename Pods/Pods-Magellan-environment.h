@@ -48,3 +48,9 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 3
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 1
 
+// PromiseKit/base
+#define COCOAPODS_POD_AVAILABLE_PromiseKit_base
+#define COCOAPODS_VERSION_MAJOR_PromiseKit_base 0
+#define COCOAPODS_VERSION_MINOR_PromiseKit_base 9
+#define COCOAPODS_VERSION_PATCH_PromiseKit_base 10
+

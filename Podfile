@@ -1,5 +1,6 @@
 target :Magellan do
     pod 'AFNetworking', '~> 2.3.1'
+    pod 'PromiseKit/base', '~> 0.9.10'
 end
 
 target :MagellanTests do

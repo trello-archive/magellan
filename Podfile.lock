@@ -25,17 +25,20 @@ PODS:
     - MagicalRecord/Core
   - MagicalRecord/Core (2.2)
   - Nocilla (0.8.1)
+  - PromiseKit/base (0.9.10)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.3.1)
   - Expecta (~> 0.3.0)
   - MagicalRecord (~> 2.2)
   - Nocilla (~> 0.8.1)
+  - PromiseKit/base (~> 0.9.10)
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
   Expecta: ce8a51b9fad15a2cd573b291cb2909aaed865350
   MagicalRecord: 2b471584fc9e3137f3d0a56967917baa4979e224
   Nocilla: e573c2bf9113c8d77782b695a2f9362b7bc44e72
+  PromiseKit: 8c7c9fd5a326ba19f410a8912da58d6f9c6dc624
 
 COCOAPODS: 0.33.1
