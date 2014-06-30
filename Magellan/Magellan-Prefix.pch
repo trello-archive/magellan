@@ -6,5 +6,5 @@
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
-    #import "MAGInterfaces.h"
+    #import "MAGMappingInterfaces.h"
 #endif

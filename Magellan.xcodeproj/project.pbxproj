@@ -11,7 +11,7 @@
 		3C1369F1195B64DE00226CE6 /* MAGGuard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369F0195B64DE00226CE6 /* MAGGuard.m */; };
 		3C1369F7195B6EB400226CE6 /* MAGMutablePredicateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369F6195B6EB400226CE6 /* MAGMutablePredicateProxy.m */; };
 		3C1369F9195B6EFC00226CE6 /* PredicateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369F8195B6EFC00226CE6 /* PredicateTests.m */; };
-		3C136A05195CA31700226CE6 /* MAGSugar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C136A04195CA31700226CE6 /* MAGSugar.m */; };
+		3C136A05195CA31700226CE6 /* MAGMappingSugar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C136A04195CA31700226CE6 /* MAGMappingSugar.m */; };
 		3C136A0B195CADDE00226CE6 /* MAGBlockMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C136A0A195CADDE00226CE6 /* MAGBlockMapper.m */; };
 		3C136A0E195CAE0200226CE6 /* MAGMappers.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C136A0D195CAE0200226CE6 /* MAGMappers.m */; };
 		3C136A11195CAFBC00226CE6 /* MAGConverters.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C136A10195CAFBC00226CE6 /* MAGConverters.m */; };
@@ -62,8 +62,8 @@
 		3C1369F5195B6EB400226CE6 /* MAGMutablePredicateProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGMutablePredicateProxy.h; sourceTree = "<group>"; };
 		3C1369F6195B6EB400226CE6 /* MAGMutablePredicateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGMutablePredicateProxy.m; sourceTree = "<group>"; };
 		3C1369F8195B6EFC00226CE6 /* PredicateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PredicateTests.m; sourceTree = "<group>"; };
-		3C136A03195CA31700226CE6 /* MAGSugar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGSugar.h; sourceTree = "<group>"; };
-		3C136A04195CA31700226CE6 /* MAGSugar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGSugar.m; sourceTree = "<group>"; };
+		3C136A03195CA31700226CE6 /* MAGMappingSugar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGMappingSugar.h; sourceTree = "<group>"; };
+		3C136A04195CA31700226CE6 /* MAGMappingSugar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGMappingSugar.m; sourceTree = "<group>"; };
 		3C136A09195CADDE00226CE6 /* MAGBlockMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGBlockMapper.h; sourceTree = "<group>"; };
 		3C136A0A195CADDE00226CE6 /* MAGBlockMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGBlockMapper.m; sourceTree = "<group>"; };
 		3C136A0C195CAE0200226CE6 /* MAGMappers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGMappers.h; sourceTree = "<group>"; };
@@ -74,7 +74,7 @@
 		3C136A16195CC4DC00226CE6 /* MAGPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGPerson.m; sourceTree = "<group>"; };
 		3C136A18195CC4DC00226CE6 /* MAGShip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGShip.h; sourceTree = "<group>"; };
 		3C136A19195CC4DC00226CE6 /* MAGShip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGShip.m; sourceTree = "<group>"; };
-		3C136A1B195DB6BF00226CE6 /* MAGInterfaces.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAGInterfaces.h; sourceTree = "<group>"; };
+		3C136A1B195DB6BF00226CE6 /* MAGMappingInterfaces.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAGMappingInterfaces.h; sourceTree = "<group>"; };
 		3C136A1C195DB8DF00226CE6 /* MAGCoreDataConverters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGCoreDataConverters.h; sourceTree = "<group>"; };
 		3C136A1D195DB8DF00226CE6 /* MAGCoreDataConverters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGCoreDataConverters.m; sourceTree = "<group>"; };
 		3C3AF4711953710B001A3FFF /* libMagellan.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMagellan.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,6 +160,8 @@
 			children = (
 				3C3AF4BA19538E51001A3FFF /* Magellan.h */,
 				3C3AF4C1195393E3001A3FFF /* Mapping */,
+				3C8703331961E5E90055F47D /* Routing */,
+				3C8703361961E7110055F47D /* Client */,
 				3C3AF4771953710B001A3FFF /* Supporting Files */,
 			);
 			path = Magellan;
@@ -215,11 +217,11 @@
 				3C3AF4CA1958B707001A3FFF /* Implementations */,
 				3C3AF4E21958D76A001A3FFF /* Helpers */,
 				3C3AF4C519539561001A3FFF /* MAGMapping.h */,
-				3C136A03195CA31700226CE6 /* MAGSugar.h */,
-				3C136A04195CA31700226CE6 /* MAGSugar.m */,
-				3C136A1B195DB6BF00226CE6 /* MAGInterfaces.h */,
+				3C136A03195CA31700226CE6 /* MAGMappingSugar.h */,
+				3C136A04195CA31700226CE6 /* MAGMappingSugar.m */,
+				3C136A1B195DB6BF00226CE6 /* MAGMappingInterfaces.h */,
 			);
-			name = Mapping;
+			path = Mapping;
 			sourceTree = "<group>";
 		};
 		3C3AF4CA1958B707001A3FFF /* Implementations */ = {
@@ -259,6 +261,20 @@
 				3C1369F6195B6EB400226CE6 /* MAGMutablePredicateProxy.m */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		3C8703331961E5E90055F47D /* Routing */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Routing;
+			sourceTree = "<group>";
+		};
+		3C8703361961E7110055F47D /* Client */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Client;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -382,7 +398,7 @@
 				3C136A0B195CADDE00226CE6 /* MAGBlockMapper.m in Sources */,
 				3C1369F7195B6EB400226CE6 /* MAGMutablePredicateProxy.m in Sources */,
 				3C1369F1195B64DE00226CE6 /* MAGGuard.m in Sources */,
-				3C136A05195CA31700226CE6 /* MAGSugar.m in Sources */,
+				3C136A05195CA31700226CE6 /* MAGMappingSugar.m in Sources */,
 				3C3AF4BD19538E7E001A3FFF /* MAGMappingSeries.m in Sources */,
 				3C136A0E195CAE0200226CE6 /* MAGMappers.m in Sources */,
 				3C1369EE195B638400226CE6 /* MAGNilGuard.m in Sources */,

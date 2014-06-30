@@ -6,8 +6,8 @@
 //
 //
 
-#import "MAGInterfaces.h"
-#import "MAGSugar.h"
+#import "MAGMappingInterfaces.h"
+#import "MAGMappingSugar.h"
 
 #pragma mark Mappers
 

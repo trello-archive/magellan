@@ -1,12 +1,12 @@
 //
-//  MAGSugar.m
+//  MAGMappingSugar.m
 //  Magellan
 //
 //  Created by Ian Henry on 6/26/14.
 //
 //
 
-#import "MAGSugar.h"
+#import "MAGMappingSugar.h"
 #import "MAGMapping.h"
 
 extern id <MAGMapper> MAGMakeMapper(id obj) {
