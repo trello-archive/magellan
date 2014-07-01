@@ -7,3 +7,4 @@
 //
 
 #import "MAGMapping.h"
+#import "MAGClient.h"

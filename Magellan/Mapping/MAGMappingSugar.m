@@ -8,6 +8,7 @@
 
 #import "MAGMappingSugar.h"
 #import "MAGMapping.h"
+#import <CoreData/CoreData.h>
 
 extern id <MAGMapper> MAGMakeMapper(id obj) {
     if ([obj conformsToProtocol:@protocol(MAGMapper)]) {
@@ -35,4 +36,12 @@ extern id <MAGMapper> MAGMakeMapperWithFields(NSDictionary *fields) {
     }];
 
     return [MAGMappingSeries mappingSeriesWithMappers:mappers];
+}
+
+extern MAGEntityBlock MAGEntityMaker(NSManagedObjectContext *moc) {
+    return ^(Class c) {
+        NSArray *entities = moc.persistentStoreCoordinator.managedObjectModel.entities;
+        NSPredicate *entityPredicate = [NSPredicate predicateWithFormat:@"managedObjectClassName = %@", NSStringFromClass(c)];
+        return [entities filteredArrayUsingPredicate:entityPredicate].firstObject;
+    };
 }
