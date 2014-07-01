@@ -81,6 +81,23 @@ static MAGManagedConverter personConverter;
     })];
 }
 
+- (void)testMainQueueRaceMapping {
+    PMKPromise *background = [PMKPromise all:@[[client mapPayload:@{@"id": @"a",
+                                                                    @"name": @"something"}
+                                                    withConverter:personConverter],
+                                               [client mapPayload:@{@"id": @"a",
+                                                                    @"name": @"something else"}
+                                                    withConverter:personConverter]]];
+
+    expect([MAGPerson MR_countOfEntities]).to.equal(0);
+    MAGBind(personConverter, moc)(@{@"id": @"a",
+                                    @"name": @"main queue"});
+    expect([MAGPerson MR_countOfEntities]).to.equal(1);
+    [self await:background.then(^{
+        expect([MAGPerson MR_countOfEntities]).to.equal(1);
+    })];
+}
+
 - (void)await:(PMKPromise *)promise {
     [self prepare];
     promise.then(^{
