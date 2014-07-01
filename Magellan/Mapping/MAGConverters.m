@@ -10,16 +10,37 @@
 #import "MAGMutablePredicateProxy.h"
 
 #define MAGCombinator(name, body) \
-MAGConverter name(MAGConverter a, MAGConverter b) { \
-    NSCParameterAssert(a != nil); \
-    NSCParameterAssert(b != nil); \
-    return ^(id input) { \
-        return body; \
-    }; \
+MAGConverter MAG##name(MAGConverter a, MAGConverter b) { \
+NSCParameterAssert(a != nil); \
+NSCParameterAssert(b != nil); \
+return ^(id input) { \
+return body; \
+}; \
 }
 
-MAGCombinator(MAGCompose, b(a(input)))
-MAGCombinator(MAGFallback, a(input) ?: b(input))
+
+MAGCombinator(Compose, b(a(input)))
+MAGCombinator(Fallback, a(input) ?: b(input))
+
+extern MAGManagedConverter MAGLift(MAGConverter converter) {
+    return ^(id input, NSManagedObjectContext *moc) {
+        return converter(input);
+    };
+}
+
+extern MAGConverter MAGBind(MAGManagedConverter converter, NSManagedObjectContext *moc) {
+    return ^(id input) {
+        return converter(input, moc);
+    };
+}
+
+extern MAGManagedConverter MAGDeferredBind(MAGConverter(^block)(MAGBindingBlock bind)) {
+    return ^(id input, NSManagedObjectContext *moc) {
+        return block(^(MAGManagedConverter managedConverter) {
+            return MAGBind(managedConverter, moc);
+        })(input);
+    };
+}
 
 extern MAGConverter MAGSubscripter(NSObject <NSCopying> *key) {
     NSCParameterAssert(key != nil);
@@ -46,11 +67,11 @@ extern MAGConverter MAGPredicateConverter(id <MAGMapper> mapper) {
     };
 }
 
-extern MAGConverter MAGMappedConverter(MAGConverter provider, id <MAGMapper> mapper) {
-    NSCParameterAssert(provider != nil);
+extern MAGConverter MAGMappedConverter(MAGConverter converter, id <MAGMapper> mapper) {
+    NSCParameterAssert(converter != nil);
     NSCParameterAssert(mapper != nil);
     return ^(id input) {
-        id object = provider(input);
+        id object = converter(input);
         [mapper map:input to:object];
         return object;
     };

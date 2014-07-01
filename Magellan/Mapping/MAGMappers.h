@@ -11,5 +11,5 @@
 
 extern id <MAGMapper> MAGRelationshipMapper(NSRelationshipDescription *relationship, MAGConverter elementConverter, id <MAGMapper> mapper);
 extern id <MAGMapper> MAGRelationshipUnionMapper(NSRelationshipDescription *relationship, MAGConverter elementConverter);
-extern id <MAGMapper> MAGConvertInput(MAGConverter provider, id <MAGMapper> mapper);
-extern id <MAGMapper> MAGConvertTarget(MAGConverter provider, id <MAGMapper> mapper);
+extern id <MAGMapper> MAGConvertInput(MAGConverter converter, id <MAGMapper> mapper);
+extern id <MAGMapper> MAGConvertTarget(MAGConverter converter, id <MAGMapper> mapper);

@@ -15,3 +15,6 @@
 @end
 
 typedef id(^MAGConverter)(id input);
+
+@class NSManagedObjectContext;
+typedef id(^MAGManagedConverter)(id input, NSManagedObjectContext *moc);

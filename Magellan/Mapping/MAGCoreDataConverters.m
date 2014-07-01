@@ -11,25 +11,23 @@
 #import "MAGMappingSeries.h"
 #import <CoreData/CoreData.h>
 
-extern MAGConverter MAGEntityCreator(NSEntityDescription *entityDescription, NSManagedObjectContext *managedObjectContext) {
+extern MAGManagedConverter MAGEntityCreator(NSEntityDescription *entityDescription) {
     NSCParameterAssert(entityDescription != nil);
-    NSCParameterAssert(managedObjectContext != nil);
-    return ^(id input) {
+    return ^(id input, NSManagedObjectContext *moc) {
         return [NSEntityDescription insertNewObjectForEntityForName:entityDescription.name
-                                             inManagedObjectContext:managedObjectContext];
+                                             inManagedObjectContext:moc];
     };
 }
 
 
-extern MAGConverter MAGEntityFinder(NSEntityDescription *entityDescription, NSManagedObjectContext *managedObjectContext) {
+extern MAGManagedConverter MAGEntityFinder(NSEntityDescription *entityDescription) {
     NSCParameterAssert(entityDescription != nil);
-    NSCParameterAssert(managedObjectContext != nil);
-    return ^id(id predicate) {
+    return ^id(id predicate, NSManagedObjectContext *moc) {
         NSCParameterAssert([predicate isKindOfClass:[NSPredicate class]]);
         NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:entityDescription.name];
         fetchRequest.predicate = predicate;
         NSError *error = nil;
-        NSArray *results = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        NSArray *results = [moc executeFetchRequest:fetchRequest error:&error];
         if (error) {
             @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                            reason:error.localizedFailureReason
@@ -45,21 +43,21 @@ extern MAGConverter MAGEntityFinder(NSEntityDescription *entityDescription, NSMa
                                            reason:@"More than one object matches the identity predicate"
                                          userInfo:nil];
         }
-
     };
 }
 
-MAGConverter MAGEntityConverter(NSEntityDescription *entity, NSManagedObjectContext *moc, id <MAGMapper> identityMapper, id <MAGMapper> fieldsMapper) {
+MAGManagedConverter MAGEntityConverter(NSEntityDescription *entity, id <MAGMapper> identityMapper, id <MAGMapper> fieldsMapper) {
     NSCParameterAssert(entity != nil);
-    NSCParameterAssert(moc != nil);
     NSCParameterAssert(identityMapper != nil);
     NSCParameterAssert(fieldsMapper != nil);
 
-    MAGConverter entityFinder = MAGCompose(MAGPredicateConverter(identityMapper),
-                                          MAGEntityFinder(entity, moc));
+    return MAGDeferredBind(^(MAGBindingBlock bind) {
+        MAGConverter entityFinder = MAGCompose(MAGPredicateConverter(identityMapper),
+                                               bind(MAGEntityFinder(entity)));
 
-    return MAGMappedConverter(MAGFallback(entityFinder,
-                                         MAGMappedConverter(MAGEntityCreator(entity, moc),
-                                                           identityMapper)),
-                             fieldsMapper);
+        return MAGMappedConverter(MAGFallback(entityFinder,
+                                              MAGMappedConverter(bind(MAGEntityCreator(entity)),
+                                                                 identityMapper)),
+                                  fieldsMapper);
+    });
 }

@@ -79,11 +79,11 @@ static MAGConverter personConverter, shipConverter;
 
     personFieldsMapper = [MAGMappingSeries mappingSeriesWithMappers:@[MAGConvertInput(MAGSubscripter(@"name"), [MAGSetter setterWithKeyPath:@"name"])]];
 
-    personConverter = MAGEntityConverter(personEntity, moc, identityMapper, personFieldsMapper);
+    personConverter = MAGBind(MAGEntityConverter(personEntity, identityMapper, personFieldsMapper), moc);
 
     shipFieldsMapper = [MAGMappingSeries mappingSeriesWithMappers:@[MAGConvertInput(MAGSubscripter(@"name"), [MAGSetter setterWithKeyPath:@"name"]),
                                                                     MAGConvertInput(MAGCompose(MAGSubscripter(@"captain"), personConverter), [MAGSetter setterWithKeyPath:@"captain"])]];
-    shipConverter = MAGEntityConverter(shipEntity, moc, identityMapper, shipFieldsMapper);
+    shipConverter = MAGBind(MAGEntityConverter(shipEntity, identityMapper, shipFieldsMapper), moc);
 }
 
 + (void)tearDown {
@@ -105,17 +105,17 @@ static MAGConverter personConverter, shipConverter;
 - (void)testEntityCreator {
     NSEntityDescription *personEntity = [NSEntityDescription entityForName:NSStringFromClass([MAGPerson class])
                                                     inManagedObjectContext:moc];
-    MAGConverter personCreator = MAGEntityCreator(personEntity, moc);
+    MAGConverter personCreator = MAGBind(MAGEntityCreator(personEntity), moc);
     personCreator(nil);
     expect([MAGPerson MR_countOfEntities]).to.equal(1);
 }
 
 - (void)testEntityFind {
-    MAGConverter finder = MAGCompose(MAGPredicateConverter(identityMapper), MAGEntityFinder(personEntity, moc));
+    MAGConverter finder = MAGCompose(MAGPredicateConverter(identityMapper), MAGBind(MAGEntityFinder(personEntity), moc));
 
     expect(finder(magellanPayload)).to.beNil();
 
-    MAGConverter personCreator = MAGMappedConverter(MAGMappedConverter(MAGEntityCreator(personEntity, moc), identityMapper), personFieldsMapper);
+    MAGConverter personCreator = MAGMappedConverter(MAGMappedConverter(MAGBind(MAGEntityCreator(personEntity), moc), identityMapper), personFieldsMapper);
     expect([MAGPerson MR_countOfEntities]).to.equal(0);
     MAGPerson *magellan = personCreator(magellanPayload);
     expect([MAGPerson MR_countOfEntities]).to.equal(1);
@@ -176,7 +176,7 @@ static MAGConverter personConverter, shipConverter;
 - (void)testUnorderedToManyRelationship {
     id <MAGMapper> crewMapper = MAGMakeMapper(@{@"crewmembers": MAGRelationshipUnionMapper(shipEntity.relationshipsByName[@"crew"], personConverter)});
     id <MAGMapper> shipMapperWithCrew = [MAGMappingSeries mappingSeriesWithMappers:@[shipFieldsMapper, crewMapper]];
-    MAGConverter shipConverterWithCrew = MAGEntityConverter(shipEntity, moc, identityMapper, shipMapperWithCrew);
+    MAGConverter shipConverterWithCrew = MAGBind(MAGEntityConverter(shipEntity, identityMapper, shipMapperWithCrew), moc);
 
     NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithDictionary:trinidadPayload];
     expect([MAGPerson MR_countOfEntities]).to.equal(0);
@@ -208,7 +208,7 @@ static MAGConverter personConverter, shipConverter;
 - (void)testOrderedToManyRelationship {
     id <MAGMapper> bestFriendsMapper = MAGMakeMapper(@{@"best_friends": MAGRelationshipUnionMapper(personEntity.relationshipsByName[@"bestFriends"], personConverter)});
     id <MAGMapper> personMapperWithFriends = [MAGMappingSeries mappingSeriesWithMappers:@[personFieldsMapper, bestFriendsMapper]];
-    MAGConverter personConverterWithFriends = MAGEntityConverter(personEntity, moc, identityMapper, personMapperWithFriends);
+    MAGConverter personConverterWithFriends = MAGBind(MAGEntityConverter(personEntity, identityMapper, personMapperWithFriends), moc);
 
     NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithDictionary:magellanPayload];
     expect([MAGPerson MR_countOfEntities]).to.equal(0);
@@ -243,7 +243,7 @@ static MAGConverter personConverter, shipConverter;
 - (void)testCustomRelationshipMapper {
     id <MAGMapper> crewMapper = MAGMakeMapper(@{@"crewmembers": MAGRelationshipUnionMapper(shipEntity.relationshipsByName[@"crew"], personConverter)});
     id <MAGMapper> shipMapperWithCrew = [MAGMappingSeries mappingSeriesWithMappers:@[shipFieldsMapper, crewMapper]];
-    MAGConverter shipConverterWithCrew = MAGEntityConverter(shipEntity, moc, identityMapper, shipMapperWithCrew);
+    MAGConverter shipConverterWithCrew = MAGBind(MAGEntityConverter(shipEntity, identityMapper, shipMapperWithCrew), moc);
 
     NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithDictionary:trinidadPayload];
     expect([MAGPerson MR_countOfEntities]).to.equal(0);

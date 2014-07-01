@@ -81,18 +81,18 @@ id <MAGMapper> MAGRelationshipMapper(NSRelationshipDescription *relationship, MA
     }), MAGConvertTarget(MAGRelationshipExtractor(relationship), mapper))];
 }
 
-id <MAGMapper> MAGConvertInput(MAGConverter provider, id <MAGMapper> mapper) {
+id <MAGMapper> MAGConvertInput(MAGConverter converter, id <MAGMapper> mapper) {
     NSCParameterAssert(mapper != nil);
-    NSCParameterAssert(provider != nil);
+    NSCParameterAssert(converter != nil);
     return [MAGBlockMapper mapperWithBlock:^(id input, id target) {
-        [mapper map:provider(input) to:target];
+        [mapper map:converter(input) to:target];
     }];
 }
 
-id <MAGMapper> MAGConvertTarget(MAGConverter provider, id <MAGMapper> mapper) {
+id <MAGMapper> MAGConvertTarget(MAGConverter converter, id <MAGMapper> mapper) {
     NSCParameterAssert(mapper != nil);
-    NSCParameterAssert(provider != nil);
+    NSCParameterAssert(converter != nil);
     return [MAGBlockMapper mapperWithBlock:^(id input, id target) {
-        [mapper map:input to:provider(target)];
+        [mapper map:input to:converter(target)];
     }];
 }
