@@ -26,6 +26,18 @@ static MAGClient *client;
 static NSManagedObjectContext *moc;
 static MAGManagedConverter personConverter;
 
+@interface NSDictionary (LSHTTPBodyCompliance) <LSHTTPBody>
+@end
+
+@implementation NSDictionary (LSHTTPBodyCompliance)
+- (NSData *)data {
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:self options:0 error:&error];
+    NSAssert(data != nil, @"Error! %@", error.localizedDescription);
+    return data;
+}
+@end
+
 @implementation ClientTests
 
 + (void)setUp {
@@ -34,18 +46,30 @@ static MAGManagedConverter personConverter;
     [MagicalRecord setupCoreDataStackWithInMemoryStore];
     moc = [NSManagedObjectContext MR_defaultContext];
 
-    AFHTTPRequestOperationManager *rom = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://www.example.org"]];
-    client = [[MAGClient alloc] initWithRequestOperationManager:rom rootContext:moc];
+    AFHTTPRequestOperationManager *rom = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://www.example.org/api"]];
+    client = [[MAGClient alloc] initWithRequestOperationManager:rom
+                                                    rootContext:moc
+              router:[MAGRouter routerWithBlock:^(MAGRouteBlock GET, MAGRouteBlock PUT, MAGRouteBlock POST, MAGRouteBlock DELETE, MAGRouteBlock ANY) {
+        ANY([MAGPerson class], @"people/:identifier");
+        POST([MAGPerson class], @"people");
+    }]];
 
     MAGEntityBlock entity = MAGEntityMaker([NSManagedObjectContext MR_defaultContext]);
 
     personConverter = MAGEntityConverter(entity([MAGPerson class]),
                                          MAGMakeMapper(@{@"id": @"identifier"}),
                                          MAGMakeMapper(@{MAGKVP(@"name")}));
+
+    [[LSNocilla sharedInstance] start];
+}
+
++ (void)tearDown {
+    [[LSNocilla sharedInstance] stop];
 }
 
 - (void)tearDown {
     [moc mag_deleteAllEntities];
+    [[LSNocilla sharedInstance] clearStubs];
 }
 
 - (void)testBackgroundMapping {
@@ -95,6 +119,19 @@ static MAGManagedConverter personConverter;
     expect([MAGPerson MR_countOfEntities]).to.equal(1);
     [self await:background.then(^{
         expect([MAGPerson MR_countOfEntities]).to.equal(1);
+    })];
+}
+
+- (void)testObjectCreation {
+    stubRequest(@"POST", @"http://www.example.org/api/people")
+    .andReturn(200)
+    .withHeaders(@{ @"Content-Type": @"application/json" })
+    .withBody(@{ @"identifier": @"a", @"name": @"Ferdinand" });
+
+    MAGPerson *person = [MAGPerson MR_createEntity];
+    person.name = @"Magellan";
+    [self await:[client createObject:person].then(^(MAGPerson *person) {
+        expect(person.name).to.equal(@"Ferdinand");
     })];
 }
 

@@ -8,12 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@class AFHTTPRequestOperationManager, PMKPromise, NSManagedObjectContext;
+@class AFHTTPRequestOperationManager, PMKPromise, NSManagedObjectContext, MAGRouter;
 
 @interface MAGClient : NSObject
 
 - (instancetype)initWithRequestOperationManager:(AFHTTPRequestOperationManager *)requestOperationManager
-                                    rootContext:(NSManagedObjectContext *)context;
+                                    rootContext:(NSManagedObjectContext *)context
+                                         router:(MAGRouter *)router;
+
+- (PMKPromise *)createObject:(NSManagedObject *)object;
 
 - (PMKPromise *)mapPayload:(id)payload withConverter:(MAGManagedConverter)converter;
 
