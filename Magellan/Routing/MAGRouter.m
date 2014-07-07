@@ -50,10 +50,12 @@
     return router;
 }
 
+// CAN RETURN NIL
 - (MAGRoute *)routeForClass:(Class)c method:(NSString *)method {
     return self.routes[method][NSStringFromClass(c)] ?: self.routes[@""][NSStringFromClass(c)];
 }
 
+// CAN RETURN NIL
 - (NSString *)routeObject:(id)obj method:(NSString *)method {
     return [[self routeForClass:[obj class] method:method] route:obj];
 }
