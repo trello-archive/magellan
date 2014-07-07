@@ -18,6 +18,8 @@
 @implementation MAGRouter
 
 + (instancetype)routerWithBlock:(void(^)(MAGRouteBlock GET, MAGRouteBlock PUT, MAGRouteBlock POST, MAGRouteBlock DELETE, MAGRouteBlock ANY))block {
+    NSParameterAssert(block != nil);
+
     NSMutableDictionary *routes = [[NSMutableDictionary alloc] init];
 
     void (^addRoute)(NSString *method, Class c, NSString *format) = ^(NSString *method, Class c, NSString *format) {
