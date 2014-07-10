@@ -10,7 +10,9 @@
 #import <AFNetworking/AFNetworking.h>
 #import <CoreData/CoreData.h>
 #import <PromiseKit/PromiseKit.h>
+#import "MAGMapping.h"
 #import "MAGRouter.h"
+#import "MAGMappingProvider.h"
 
 @interface MAGClient ()
 
@@ -18,6 +20,7 @@
 @property (nonatomic, strong, readwrite) NSManagedObjectContext *rootContext;
 @property (nonatomic, strong) NSManagedObjectContext *backgroundContext;
 @property (nonatomic, strong, readwrite) MAGRouter *router;
+@property (nonatomic, strong, readwrite) MAGMappingProvider *mappingProvider;
 
 @end
 
@@ -25,15 +28,18 @@
 
 - (instancetype)initWithRequestOperationManager:(AFHTTPRequestOperationManager *)requestOperationManager
                                     rootContext:(NSManagedObjectContext *)rootContext
-                                         router:(MAGRouter *)router {
+                                         router:(MAGRouter *)router
+                                mappingProvider:(MAGMappingProvider *)mappingProvider {
     NSParameterAssert(requestOperationManager != nil);
     NSParameterAssert(rootContext != nil);
     NSParameterAssert(router != nil);
+    NSParameterAssert(mappingProvider != nil); // eventually it should be okay to have a client with a mapping provider. but not yet.
     NSAssert(rootContext.concurrencyType == NSMainQueueConcurrencyType, @"Currently the rootContext must be a main queue context. Thinking about how to fix that.");
     if (self = [super init]) {
         self.requestOperationManager = requestOperationManager;
         self.rootContext = rootContext;
         self.router = router;
+        self.mappingProvider = mappingProvider;
         self.backgroundContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         [self.backgroundContext performBlockAndWait:^{
             self.backgroundContext.parentContext = self.rootContext;
@@ -88,9 +94,11 @@
 - (MAGManagedConverter)converterForObject:(NSManagedObject *)object {
     NSParameterAssert(object != nil);
     NSManagedObjectID *objectID = object.objectID;
-    return ^(id foo, NSManagedObjectContext *moc){
-        return [moc objectWithID:objectID];
-    };
+    return MAGDeferredBind(^MAGConverter(MAGBindingBlock bind) {
+        return MAGMappedConverter(bind(^(id foo, NSManagedObjectContext *moc){
+            return [moc objectWithID:objectID];
+        }), [self.mappingProvider mapperForClass:object.class]);
+    });
 }
 
 @end

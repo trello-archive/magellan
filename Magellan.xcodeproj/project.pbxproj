@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C0F7EBA196F1D8700E172E9 /* MAGMappingProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0F7EB9196F1D8700E172E9 /* MAGMappingProvider.m */; };
 		3C1369EE195B638400226CE6 /* MAGNilGuard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369ED195B638400226CE6 /* MAGNilGuard.m */; };
 		3C1369F1195B64DE00226CE6 /* MAGGuard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369F0195B64DE00226CE6 /* MAGGuard.m */; };
 		3C1369F7195B6EB400226CE6 /* MAGMutablePredicateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1369F6195B6EB400226CE6 /* MAGMutablePredicateProxy.m */; };
@@ -61,6 +62,8 @@
 
 /* Begin PBXFileReference section */
 		0DA608C587104E549DDAFF77 /* libPods-Magellan.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Magellan.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C0F7EB8196F1D8700E172E9 /* MAGMappingProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGMappingProvider.h; sourceTree = "<group>"; };
+		3C0F7EB9196F1D8700E172E9 /* MAGMappingProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGMappingProvider.m; sourceTree = "<group>"; };
 		3C1369EC195B638400226CE6 /* MAGNilGuard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGNilGuard.h; sourceTree = "<group>"; };
 		3C1369ED195B638400226CE6 /* MAGNilGuard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGNilGuard.m; sourceTree = "<group>"; };
 		3C1369EF195B64DE00226CE6 /* MAGGuard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGGuard.h; sourceTree = "<group>"; };
@@ -299,6 +302,8 @@
 			children = (
 				3C8703371961EB8C0055F47D /* MAGClient.h */,
 				3C8703381961EB8C0055F47D /* MAGClient.m */,
+				3C0F7EB8196F1D8700E172E9 /* MAGMappingProvider.h */,
+				3C0F7EB9196F1D8700E172E9 /* MAGMappingProvider.m */,
 			);
 			path = Client;
 			sourceTree = "<group>";
@@ -455,6 +460,7 @@
 				3C3AF4B219538AA5001A3FFF /* MAGSetter.m in Sources */,
 				3C136A1E195DB8DF00226CE6 /* MAGCoreDataConverters.m in Sources */,
 				3C136A0B195CADDE00226CE6 /* MAGBlockMapper.m in Sources */,
+				3C0F7EBA196F1D8700E172E9 /* MAGMappingProvider.m in Sources */,
 				3C61E4ED196B3E3500532843 /* MAGRouter.m in Sources */,
 				3C1369F7195B6EB400226CE6 /* MAGMutablePredicateProxy.m in Sources */,
 				3C1369F1195B64DE00226CE6 /* MAGGuard.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MAGMappingProvider.h"
 
 @class AFHTTPRequestOperationManager, PMKPromise, NSManagedObjectContext, MAGRouter;
 
@@ -14,11 +15,13 @@
 
 - (instancetype)initWithRequestOperationManager:(AFHTTPRequestOperationManager *)requestOperationManager
                                     rootContext:(NSManagedObjectContext *)context
-                                         router:(MAGRouter *)router;
+                                         router:(MAGRouter *)router
+                                mappingProvider:(MAGMappingProvider *)mappingProvider;
 
 @property (nonatomic, strong, readonly) MAGRouter *router;
 @property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *requestOperationManager;
 @property (nonatomic, strong, readonly) NSManagedObjectContext *rootContext;
+@property (nonatomic, strong, readonly) MAGMappingProvider *mappingProvider;
 
 - (PMKPromise *)createObject:(NSManagedObject *)object;
 - (PMKPromise *)mapPayload:(id)payload withConverter:(MAGManagedConverter)converter;

@@ -46,19 +46,23 @@ static MAGManagedConverter personConverter;
     [MagicalRecord setupCoreDataStackWithInMemoryStore];
     moc = [NSManagedObjectContext MR_defaultContext];
 
+    id <MAGMapper> personFieldsMapper = MAGMakeMapper(@{MAGKVP(@"name")});
+
     AFHTTPRequestOperationManager *rom = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://www.example.org/api"]];
     client = [[MAGClient alloc] initWithRequestOperationManager:rom
                                                     rootContext:moc
                                                          router:[MAGRouter routerWithBlock:^(MAGRouteBlock GET, MAGRouteBlock PUT, MAGRouteBlock POST, MAGRouteBlock DELETE, MAGRouteBlock ANY) {
         ANY([MAGPerson class], @"people/:identifier");
         POST([MAGPerson class], @"people");
+    }] mappingProvider:[MAGMappingProvider mappingProviderForModel:moc.persistentStoreCoordinator.managedObjectModel block:^(MAGMapDefiner map) {
+        map([MAGPerson class], personFieldsMapper);
     }]];
 
     MAGEntityBlock entity = MAGEntityMaker([NSManagedObjectContext MR_defaultContext]);
 
     personConverter = MAGEntityConverter(entity([MAGPerson class]),
                                          MAGMakeMapper(@{@"id": @"identifier"}),
-                                         MAGMakeMapper(@{MAGKVP(@"name")}));
+                                         personFieldsMapper);
 
     [[LSNocilla sharedInstance] start];
 }
