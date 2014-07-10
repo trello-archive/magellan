@@ -16,8 +16,11 @@
                                     rootContext:(NSManagedObjectContext *)context
                                          router:(MAGRouter *)router;
 
-- (PMKPromise *)createObject:(NSManagedObject *)object;
+@property (nonatomic, strong, readonly) MAGRouter *router;
+@property (nonatomic, strong, readonly) AFHTTPRequestOperationManager *requestOperationManager;
+@property (nonatomic, strong, readonly) NSManagedObjectContext *rootContext;
 
+- (PMKPromise *)createObject:(NSManagedObject *)object;
 - (PMKPromise *)mapPayload:(id)payload withConverter:(MAGManagedConverter)converter;
 
 @end

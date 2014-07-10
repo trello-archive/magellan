@@ -14,10 +14,10 @@
 
 @interface MAGClient ()
 
-@property (nonatomic, strong) AFHTTPRequestOperationManager *requestOperationManager;
-@property (nonatomic, strong) NSManagedObjectContext *rootContext;
+@property (nonatomic, strong, readwrite) AFHTTPRequestOperationManager *requestOperationManager;
+@property (nonatomic, strong, readwrite) NSManagedObjectContext *rootContext;
 @property (nonatomic, strong) NSManagedObjectContext *backgroundContext;
-@property (nonatomic, strong) MAGRouter *router;
+@property (nonatomic, strong, readwrite) MAGRouter *router;
 
 @end
 

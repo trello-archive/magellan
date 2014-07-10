@@ -49,7 +49,7 @@ static MAGManagedConverter personConverter;
     AFHTTPRequestOperationManager *rom = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://www.example.org/api"]];
     client = [[MAGClient alloc] initWithRequestOperationManager:rom
                                                     rootContext:moc
-              router:[MAGRouter routerWithBlock:^(MAGRouteBlock GET, MAGRouteBlock PUT, MAGRouteBlock POST, MAGRouteBlock DELETE, MAGRouteBlock ANY) {
+                                                         router:[MAGRouter routerWithBlock:^(MAGRouteBlock GET, MAGRouteBlock PUT, MAGRouteBlock POST, MAGRouteBlock DELETE, MAGRouteBlock ANY) {
         ANY([MAGPerson class], @"people/:identifier");
         POST([MAGPerson class], @"people");
     }]];
