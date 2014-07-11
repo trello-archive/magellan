@@ -25,5 +25,6 @@
 
 - (PMKPromise *)createObject:(NSManagedObject *)object;
 - (PMKPromise *)mapPayload:(id)payload withConverter:(MAGManagedConverter)converter;
+- (PMKPromise *)get:(NSString *)url withConverter:(MAGManagedConverter)converter;
 
 @end

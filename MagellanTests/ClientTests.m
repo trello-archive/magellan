@@ -126,7 +126,7 @@ static MAGManagedConverter personConverter;
     })];
 }
 
-- (void)testObjectCreation {
+- (void)testObjectPosting {
     stubRequest(@"POST", @"http://www.example.org/api/people")
     .andReturn(200)
     .withHeaders(@{ @"Content-Type": @"application/json" })
@@ -134,8 +134,24 @@ static MAGManagedConverter personConverter;
 
     MAGPerson *person = [MAGPerson MR_createEntity];
     person.name = @"Magellan";
-    [self await:[client createObject:person].then(^(MAGPerson *person) {
+    [self await:[client createObject:person].then(^(MAGPerson *personResponse) {
+        expect(personResponse).to.beIdenticalTo(person);
         expect(person.name).to.equal(@"Ferdinand");
+        expect(person.managedObjectContext).to.beIdenticalTo(moc);
+        expect([MAGPerson MR_countOfEntities]).to.equal(1);
+    })];
+}
+
+- (void)testObjectGettingWithUrl {
+    stubRequest(@"GET", @"http://www.example.org/api/people/1")
+    .andReturn(200)
+    .withHeaders(@{ @"Content-Type": @"application/json" })
+    .withBody(@{ @"identifier": @"1", @"name": @"Ferdinand Magellan" });
+
+    [self await:[client get:@"http://www.example.org/api/people/1" withConverter:personConverter].then(^(MAGPerson *person) {
+        expect(person.name).to.equal(@"Ferdinand Magellan");
+        expect(person.managedObjectContext).to.beIdenticalTo(moc);
+        expect([MAGPerson MR_countOfEntities]).to.equal(1);
     })];
 }
 

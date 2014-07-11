@@ -101,4 +101,22 @@
     });
 }
 
+- (PMKPromise *)get:(NSString *)url withConverter:(MAGManagedConverter)converter {
+    NSParameterAssert(url != nil);
+    NSParameterAssert(converter != nil);
+
+    return [PMKPromise new:^(PMKPromiseFulfiller fulfiller, PMKPromiseRejecter rejecter) {
+        [self.requestOperationManager GET:url
+                               parameters:nil
+                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                      fulfiller(responseObject);
+                                  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                      rejecter(error);
+                                  }];
+    }].then(^(id payload) {
+        return [self mapPayload:payload
+                  withConverter:converter];
+    });
+}
+
 @end
