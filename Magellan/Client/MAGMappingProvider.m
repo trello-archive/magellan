@@ -47,9 +47,7 @@
         }
     }
 
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"%@ does not appear to be the backing class for an entity in the provided managed object model", className]
-                                 userInfo:nil];
+    MAGThrowF(@"%@ does not appear to be the backing class for an entity in the provided managed object model", className);
 }
 
 // TODO: MAY RETURN NIL

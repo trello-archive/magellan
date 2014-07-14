@@ -25,9 +25,7 @@
 }
 
 - (BOOL)shouldMap:(id)input {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"%s is an abstract method", __PRETTY_FUNCTION__]
-                                 userInfo:nil];
+    MAGThrowF(@"%s is an abstract method", __PRETTY_FUNCTION__);
 }
 
 - (void)map:(id)input to:(id)target {

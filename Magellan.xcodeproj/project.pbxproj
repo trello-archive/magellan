@@ -113,6 +113,7 @@
 		3C8703371961EB8C0055F47D /* MAGClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGClient.h; sourceTree = "<group>"; };
 		3C8703381961EB8C0055F47D /* MAGClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGClient.m; sourceTree = "<group>"; };
 		3C87033A1961F3310055F47D /* ClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientTests.m; sourceTree = "<group>"; };
+		3CA68D73197459DE00079897 /* MAGHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAGHelpers.h; sourceTree = "<group>"; };
 		4A12FA3A803F4928B1966D62 /* Pods-Magellan.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magellan.xcconfig"; path = "Pods/Pods-Magellan.xcconfig"; sourceTree = "<group>"; };
 		A6EAF6DEA7D04BDFAA637C41 /* libPods-MagellanTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MagellanTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C228EC17EBF845B99F1F1D17 /* Pods-MagellanTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MagellanTests.xcconfig"; path = "Pods/Pods-MagellanTests.xcconfig"; sourceTree = "<group>"; };
@@ -192,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				3C3AF4781953710B001A3FFF /* Magellan-Prefix.pch */,
+				3CA68D73197459DE00079897 /* MAGHelpers.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";

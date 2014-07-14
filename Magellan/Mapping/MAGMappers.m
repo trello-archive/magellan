@@ -17,9 +17,7 @@ static NSOrderedSet *coerceToOrderedSet(id input) {
     if ([input isKindOfClass:[NSArray class]]) {
         return [NSOrderedSet orderedSetWithArray:input];
     }
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"Can't coerce %@ into a set", input]
-                                 userInfo:nil];
+    MAGThrowF(@"Can't coerce %@ into an ordered set", input);
 }
 
 static NSSet *coerceToSet(id input) {
@@ -32,9 +30,7 @@ static NSSet *coerceToSet(id input) {
     if ([input isKindOfClass:[NSArray class]]) {
         return [NSSet setWithArray:input];
     }
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"Can't coerce %@ into a set", input]
-                                 userInfo:nil];
+    MAGThrowF(@"Can't coerce %@ into a set", input);
 }
 
 static id <MAGMapper> MAGSetUnioner() {

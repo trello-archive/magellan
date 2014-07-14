@@ -30,9 +30,7 @@
         if (routes[method][className] == nil) {
             routes[method][className] = [MAGRoute routeWithFormat:format];
         } else {
-            @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                           reason:[NSString stringWithFormat:@"Already have a %@ route for %@", method, className]
-                                         userInfo:nil];
+            MAGThrowF(@"Already have a %@ route for %@", method, className);
         }
     };
 
@@ -41,7 +39,6 @@
             addRoute(method, c, format);
         };
     };
-
 
     block(route(@"GET"), route(@"PUT"), route(@"POST"), route(@"DELETE"), route(@""));
 

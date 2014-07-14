@@ -23,9 +23,7 @@ extern id <MAGMapper> MAGMakeMapper(id obj) {
         return [MAGSetter setterWithKeyPath:obj];
     }
 
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"Don't know how to make a mapper out of %@", obj]
-                                 userInfo:@{@"obj": obj}];
+    MAGThrowF(@"Don't know how to make a mapper out of %@", obj);
 }
 
 extern id <MAGMapper> MAGMakeMapperWithFields(NSDictionary *fields) {

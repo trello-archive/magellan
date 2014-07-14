@@ -39,9 +39,7 @@ extern MAGManagedConverter MAGEntityFinder(NSEntityDescription *entityDescriptio
         } else if (results.count == 1) {
             return results.firstObject;
         } else {
-            @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                           reason:@"More than one object matches the identity predicate"
-                                         userInfo:nil];
+            MAGThrow(@"More than one object matches the identity predicate");
         }
     };
 }
