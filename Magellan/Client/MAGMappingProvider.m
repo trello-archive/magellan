@@ -52,7 +52,7 @@
                                  userInfo:nil];
 }
 
-// MAY RETURN NIL
+// TODO: MAY RETURN NIL
 - (id <MAGMapper>)mapperForEntity:(NSEntityDescription *)entity {
     if (entity == nil) {
         return nil;
@@ -61,7 +61,7 @@
     }
 }
 
-// MAY RETURN NIL
+// TODO: MAY RETURN NIL
 - (id <MAGMapper>)mapperForClass:(Class)c {
     NSParameterAssert(c != nil);
     return [self mapperForEntity:[self entityForClass:c]];

@@ -14,7 +14,7 @@
 
 @property (nonatomic, strong, readonly) id <MAGMapper> mapper;
 
-// protected
+// TODO: this is protected
 - (BOOL)shouldMap:(id)input;
 
 @end

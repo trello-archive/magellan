@@ -33,7 +33,7 @@
     NSParameterAssert(requestOperationManager != nil);
     NSParameterAssert(rootContext != nil);
     NSParameterAssert(router != nil);
-    NSParameterAssert(mappingProvider != nil); // eventually it should be okay to have a client with a mapping provider. but not yet.
+    NSParameterAssert(mappingProvider != nil); // TODO: eventually it should be okay to have a client with a mapping provider. but not yet.
     NSAssert(rootContext.concurrencyType == NSMainQueueConcurrencyType, @"Currently the rootContext must be a main queue context. Thinking about how to fix that.");
     if (self = [super init]) {
         self.requestOperationManager = requestOperationManager;
