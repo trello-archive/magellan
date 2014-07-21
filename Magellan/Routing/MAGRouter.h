@@ -8,13 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-@class MAGRoute;
+@class MAGRoute, MAGBoundRouteHelper;
 
-typedef void(^MAGRouteBlock)(Class c, NSString *format);
+typedef MAGBoundRouteHelper *(^MAGBoundRouteBlock)(NSString *format);
+typedef MAGBoundRouteHelper *(^MAGRouteHelper)(Class c);
+
+@interface MAGBoundRouteHelper : NSObject
+@property (nonatomic, copy, readonly) MAGBoundRouteBlock GET, PUT, POST, DELETE, ANY;
+@end
 
 @interface MAGRouter : NSObject
 
-+ (instancetype)routerWithBlock:(void(^)(MAGRouteBlock GET, MAGRouteBlock PUT, MAGRouteBlock POST, MAGRouteBlock DELETE, MAGRouteBlock ANY))block;
++ (instancetype)routerWithBlock:(void(^)(MAGRouteHelper route))block;
 
 - (MAGRoute *)routeForClass:(Class)c method:(NSString *)method;
 - (NSString *)routeObject:(id)obj method:(NSString *)method;

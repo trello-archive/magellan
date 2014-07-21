@@ -51,9 +51,10 @@ static MAGManagedConverter personConverter;
     AFHTTPRequestOperationManager *rom = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://www.example.org/api"]];
     client = [[MAGClient alloc] initWithRequestOperationManager:rom
                                                     rootContext:moc
-                                                         router:[MAGRouter routerWithBlock:^(MAGRouteBlock GET, MAGRouteBlock PUT, MAGRouteBlock POST, MAGRouteBlock DELETE, MAGRouteBlock ANY) {
-        ANY([MAGPerson class], @"people/:identifier");
-        POST([MAGPerson class], @"people");
+                                                         router:[MAGRouter routerWithBlock:^(MAGRouteHelper route) {
+        route([MAGPerson class])
+        .POST(@"people")
+        .ANY(@"people/:identifier");
     }] mappingProvider:[MAGMappingProvider mappingProviderForModel:moc.persistentStoreCoordinator.managedObjectModel block:^(MAGMapDefiner map) {
         map([MAGPerson class], personFieldsMapper);
     }]];

@@ -9,6 +9,21 @@
 #import "MAGRouter.h"
 #import "MAGRoute.h"
 
+@interface MAGBoundRouteHelper ()
+@property (nonatomic, strong) Class c;
+@property (nonatomic, copy, readwrite) MAGBoundRouteBlock GET, PUT, POST, DELETE, ANY;
+@end
+
+@implementation MAGBoundRouteHelper
+
++ (instancetype)boundRouteHelperWithClass:(Class)c {
+    MAGBoundRouteHelper *helper = [[MAGBoundRouteHelper alloc] init];
+    helper.c = c;
+    return helper;
+}
+
+@end
+
 @interface MAGRouter ()
 
 @property (nonatomic, copy) NSDictionary *routes;
@@ -17,7 +32,7 @@
 
 @implementation MAGRouter
 
-+ (instancetype)routerWithBlock:(void(^)(MAGRouteBlock GET, MAGRouteBlock PUT, MAGRouteBlock POST, MAGRouteBlock DELETE, MAGRouteBlock ANY))block {
++ (instancetype)routerWithBlock:(void(^)(MAGRouteHelper route))block {
     NSParameterAssert(block != nil);
 
     NSMutableDictionary *routes = [[NSMutableDictionary alloc] init];
@@ -34,13 +49,24 @@
         }
     };
 
-    MAGRouteBlock (^route)(NSString *method) = ^(NSString *method) {
-        return ^(Class c, NSString *format) {
+    MAGBoundRouteBlock (^boundRoute)(Class c, NSString *method, __weak MAGBoundRouteHelper *helper) = ^(Class c, NSString *method, __weak MAGBoundRouteHelper *helper) {
+        return ^(NSString *format) {
             addRoute(method, c, format);
+            return helper;
         };
     };
 
-    block(route(@"GET"), route(@"PUT"), route(@"POST"), route(@"DELETE"), route(@""));
+    MAGRouteHelper route = ^(Class c){
+        MAGBoundRouteHelper *helper = [MAGBoundRouteHelper boundRouteHelperWithClass:c];
+        helper.GET = boundRoute(c, @"GET", helper);
+        helper.POST = boundRoute(c, @"POST", helper);
+        helper.PUT = boundRoute(c, @"PUT", helper);
+        helper.DELETE = boundRoute(c, @"DELETE", helper);
+        helper.ANY = boundRoute(c, @"", helper);
+        return helper;
+    };
+
+    block(route);
 
     MAGRouter *router = [[MAGRouter alloc] init];
     router.routes = routes;
